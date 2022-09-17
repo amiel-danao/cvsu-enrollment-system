@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+    {% block content %}
+
+    <section id="showcase-inner" class="py-5 text-white">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h1 class="display-4">{{record.name}}</h1>
+            <p class="lead"><i class="fas fa-envelope"></i> {{record.email}}</p>
+            <p class="lead"><i class="fas fa-mobile-alt"></i> {{record.Student_Contact}}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+    <!-- Breadcrumb -->
+    <section id="bc" class="mt-3">
+      <div class="container">
+        <nav>
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'index' %}">
+                  <i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="breadcrumb-item">
+              <a href="{% url 'records' %}">Query</a>
+            </li>
+            <li class="breadcrumb-item active">StudentInfo</li>
+          </ol>
+        </nav>
+      </div>
+    </section>
+  
+    <!-- Listing -->
+    <section id="listing" class="py-4">
+      <div class="container">
+        <a href="{% url 'records' %}" class="btn btn-light mb-4">Back To Inquiry</a>
+        <div class="row">
+          <div class="col-md-9">
+              <h4 class="text-center card-title">Personal Information</h4>
+              <hr>
+              <!-- Personal Fields -->
+              <div class="row mb-5 fields">
+                <div class="col-md-6">
+                  <ul class="list-group list-group-flush">
+                      <li class="list-group-item text-secondary">
+                        Student Name: <span class="float-right">{{record.name}}</span>
+                      </li>
+                      <li class="list-group-item text-secondary">
+                        Father's Name: <span class="float-right">{{record.father}}</span>
+                      </li>
+                      <li class="list-group-item text-secondary">
+                        Mother's Name: <span class="float-right">{{record.mother}}</span>
+                      </li>
+                      <li class="list-group-item text-secondary">
+                        Religion: <span class="float-right">{{record.religion}}</span>
+                      </li>
+                      <li class="list-group-item text-secondary">
+                        Blood: <span class="float-right">{{record.blood}}</span>
+                      </li>
+                      <li class="list-group-item text-secondary">
+                        Street: <span class="float-right">{{record.street}}</span>
+                      </li>
+                      <li class="list-group-item text-secondary">
+                        District: <span class="float-right">{{record.district}}</span>
+                      </li>
+                  </ul>
+                </div>
+  
+                <div class="col-md-6">
+                  <ul class="list-group list-group-flush">
+                      <li class="list-group-item text-secondary">
+                        Mobile: <span class="float-right">{{record.Student_Contact}}</span>
+                      </li>
+                      <li class="list-group-item text-secondary">
+                        Mobile: <span class="float-right">{{record.Father_Contact}}</span>
+                      </li>
+                      <li class="list-group-item text-secondary">
+                        Mobile: <span class="float-right">{{record.Mother_Contact}}</span>
+                      </li>
+                      <li class="list-group-item text-secondary">
+                        Nationality: <span class="float-right">{{record.nationality}}</span>
+                      </li>
+                      <li class="list-group-item text-secondary">
+                        E-Mail: <span class="float-right">{{record.email}}</span>
+                      </li>
+                      <li class="list-group-item text-secondary">
+                        City: <span class="float-right">{{record.city}}</span>
+                      </li>
+                      <li class="list-group-item text-secondary">
+                        Postal Code: <span class="float-right">{{record.zip_code}}</span>
+                      </li>
+                  </ul>
+                </div>
+              </div>
+  
+              <!-- Educational Fields  -->
+              <h4 class="text-center card-title">Educational Background</h4>
+              <hr>
+              <div class="row mb-5 fields">
+                <div class="col-md-6">
+                  <ul class="list-group list-group-flush">
+                      <li class="list-group-item text-secondary">
+                        HSC: <span class="float-right">{{record.HSC_Result}}</span>
+                      </li>
+                      <li class="list-group-item text-secondary">
+                        College: <span class="float-right">{{record.college}}</span>
+                      </li>
+                      <li class="list-group-item text-secondary">
+                        Group: <span class="float-right">{{record.HSC_Group}}</span>
+                      </li>
+                      <li class="list-group-item text-secondary">
+                        Board: <span class="float-right">{{record.HSC_Board}}</span>
+                      </li>
+                      <li class="list-group-item text-secondary">
+                        Year: <span class="float-right">{{record.HSC_Year}}</span>
+                      </li>
+                  </ul>
+                </div>
+  
+                <div class="col-md-6">
+                  <ul class="list-group list-group-flush">
+                      <li class="list-group-item text-secondary">
+                        SSC: <span class="float-right">{{record.SSC_Result}}</span>
+                      </li>
+                      <li class="list-group-item text-secondary">
+                        School: <span class="float-right">{{record.school}}</span>
+                      </li>
+                      <li class="list-group-item text-secondary">
+                        Group: <span class="float-right">{{record.SSC_Group}}</span>
+                      </li>
+                      <li class="list-group-item text-secondary">
+                        Board: <span class="float-right">{{record.SSC_Board}}</span>
+                      </li>
+                      <li class="list-group-item text-secondary">
+                        Year: <span class="float-right">{{record.SSC_Year}}</span>
+                      </li>
+                  </ul>
+                </div>
+              </div>
+    
+          </div>
+  
+  
+          <div class="col-md-3">
+            <div class="card mb-3">
+              <img class="card-img-top" src="{{record.photo.url}}" alt="StudentProfile">
+              <div class="card-body">
+                <h5 class="card-title">{{record.name}}</h5>
+                <p class="text-secondary studinfo"><span style="font-weight: bold">ID</span>: {{record.roll}}</p>
+                <p class="text-secondary studinfo"><span style="font-weight: bold">Section</span>: {{record.section}}</p>
+                <p class="text-secondary studinfo"><span style="font-weight: bold">Batch</span>: {{record.batch}}</p>
+                <p class="text-secondary studinfo"><span style="font-weight: bold">Department</span>: {{record.department}}</p>
+                <p class="text-secondary studinfo"><span style="font-weight: bold">Session</span>: {{record.session}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+  
+        </div>
+      </div>
+    </div>
+  
+  
+    
+    {% endblock %}

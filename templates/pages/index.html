@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- Showcase -->
+<section id="showcase">
+    <div class="container text-center">
+        <div class="home-search p-5">
+            <div class="overlay p-5">
+                <h1 class="display-4 mb-4">
+                    CVSU Enrollment System
+                </h1>
+                <p class="lead">Search for any kind of query</p>
+                <div class="search">
+                    <form action="{% url 'search' %}">
+                        <!-- Form Row 1 -->
+                        <div class="form-row">
+                            <div class="col-md-12 mb-3">
+                                <label class="sr-only">Search</label>
+                                <input type="text" name="name" value="{{values.name}}" class="form-control"
+                                    placeholder="Search Using Name....">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="sr-only">ID</label>
+                                <input type="text" name="roll" value="{{values.roll}}" class="form-control"
+                                    placeholder="Class Roll....">
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label class="sr-only">Batch</label>
+                                <input type="text" name="batch" value="{{values.batch}}" class="form-control"
+                                    placeholder="Batch....">
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label class="sr-only">Department</label>
+                                <select name="department" class="form-control">
+                                    <option selected="true" disabled="disabled">Select Department</option>
+                                    {% for key,value in department_choices.items %}
+                                    <option value="{{ key }}">{{value}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary btn-block mt-4" type="submit">Submit form</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--Alerts-->
+{% include 'partials/_alerts.html' %}
+
+<section id="services" class="py-5 bg-secondary text-white">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-12">
+                <h3>About</h3>
+                <hr>
+                <p style="text-align: justify;">Lorem Ipsum is simply dummy text of the printing and typesetting
+                    industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
+                    unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived
+                    not only five centuries, but also the leap into electronic typesetting, remaining essentially
+                    unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem
+                    Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including
+                    versions of Lorem Ipsum.Contrary to popular belief, Lorem Ipsum is not simply random text. It has
+                    roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard
+                    McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more
+                    obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the
+                    word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections
+                    1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero,
+                    written in 45 BC. This book is a treatise on the theory of ethics, very popular during the
+                    Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in
+                    section 1.10.32.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
