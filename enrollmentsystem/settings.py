@@ -94,10 +94,10 @@ else:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.mysql",
-            "NAME": "csvu$enrollment_database",
-            "USER": "csvu",
+            "NAME": "cvsuenrollmentsy$default",
+            "USER": "cvsuenrollmentsy",
             "PASSWORD": "notcommonpassword1234",
-            "HOST": "csvu.mysql.pythonanywhere-services.com",
+            "HOST": "cvsuenrollmentsystem.mysql.pythonanywhere-services.com",
             "PORT": "3306",
         }
     }
