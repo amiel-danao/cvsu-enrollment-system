@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
+from django.contrib.messages import constants as messages
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -31,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'django_tables2',
     'pages.apps.PagesConfig',
     'authority.apps.AuthorityConfig',
     'records.apps.RecordsConfig',
@@ -77,12 +79,28 @@ WSGI_APPLICATION = 'enrollmentsystem.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR,'db.sqlite3'),
+if os.environ.get("DJANGO_ENV") == "LOCAL":
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "csvu$enrollment_database",
+            "USER": "root",
+            "PASSWORD": "",
+            "HOST": "127.0.0.1",
+            "PORT": "3306",
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": "csvu$enrollment_database",
+            "USER": "csvu",
+            "PASSWORD": "notcommonpassword1234",
+            "HOST": "csvu.mysql.pythonanywhere-services.com",
+            "PORT": "3306",
+        }
+    }
 
 
 # Password validation
@@ -127,13 +145,19 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'enrollmentsystem/static')
 ]
 
-
- # Media Folder Setings
+# Media Folder Setings
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 # Message Framework
-from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
+
+AUTH_USER_MODEL = "authority.CustomUser"
+LOGIN_URL = 'login'  # this is the name of the url
+
+LOGOUT_REDIRECT_URL = '/'  # this is the name of the url
+
+LOGIN_REDIRECT_URL = '/admission/get_admission'  # this is the name of the url
+DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap.html"

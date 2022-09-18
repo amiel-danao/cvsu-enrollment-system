@@ -1,13 +1,24 @@
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
+from authority.managers import CustomUserManager
 
-# Create your models here.
-class Authority(models.Model):
-    title = models.CharField(max_length = 200)
-    email = models.CharField(max_length = 50)
-    phone = models.CharField(max_length = 50)
-    photo = models.ImageField(upload_to = 'photos/%Y/%m/%d')
-    description = models.TextField(blank = True)
 
+class CustomUser(AbstractBaseUser, PermissionsMixin):
+    id = models.AutoField(primary_key=True)
+    email = models.EmailField(_("email address"), unique=True)
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
+    date_joined = models.DateTimeField(default=timezone.now)
+
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = []
+
+    objects = CustomUserManager()
 
     def __str__(self):
-        return self.title
+        return self.email
+
+    class Meta:
+        verbose_name = "User"

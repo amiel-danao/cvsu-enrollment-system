@@ -1,3 +1,9 @@
 from django.shortcuts import render
+from django.shortcuts import redirect
 
-# Create your views here.
+
+def index(request):
+    if request.user is None or request.user.is_authenticated is False:
+        return redirect('/accounts/login')
+    context = {}
+    return render(request, 'admission/admission.html', context)

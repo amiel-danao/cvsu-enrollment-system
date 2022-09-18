@@ -1,40 +1,27 @@
 from django.db import models
-from datetime import datetime
+from django.urls import reverse
 
-# Create your models here.
+from authority.models import CustomUser
+
+SEMESTER_CHOICES = [
+    (1, 1),
+    (2, 2),
+    (3, 3),
+    (4, 4)
+]
+
+
 class Record(models.Model):
-    name = models.CharField(max_length = 100)
-    roll = models.CharField(max_length = 50)
-    batch = models.CharField(max_length = 20)
-    section = models.CharField(max_length = 20)
-    session = models.CharField(max_length = 20)
-    department = models.CharField(max_length = 30)
-    Student_Contact = models.CharField(max_length = 20)
-    email = models.CharField(max_length = 50)
-    father = models.CharField(max_length = 100)
-    Father_Contact = models.CharField(max_length = 20)
-    mother = models.CharField(max_length = 100)
-    Mother_Contact = models.CharField(max_length = 20)
-    religion = models.CharField(max_length = 30)
-    nationality = models.CharField(max_length = 30)
-    blood = models.CharField(max_length = 20)
-    street = models.CharField(max_length = 50)
-    city = models.CharField(max_length = 30)
-    district = models.CharField(max_length = 30)
-    zip_code = models.CharField(max_length = 20)
-    college = models.CharField(max_length = 50)
-    HSC_Result = models.CharField(max_length = 5)
-    HSC_Group = models.CharField(max_length = 20)
-    HSC_Board = models.CharField(max_length = 20)
-    HSC_Year = models.CharField(max_length = 20)
-    school = models.CharField(max_length = 50)
-    SSC_Result = models.CharField(max_length = 5)
-    SSC_Group = models.CharField(max_length = 20)
-    SSC_Board = models.CharField(max_length = 20)
-    SSC_Year = models.CharField(max_length = 20)
-    photo = models.ImageField(upload_to = 'photos/%Y/%m/%d/')
-    is_published = models.BooleanField(default = True)
-    list_date = models.DateTimeField(default = datetime.now, blank = True)
+    user = models.ManyToManyField(CustomUser)
+    first_name = models.CharField(default="", blank=False, max_length=50)
+    middle_name = models.CharField(blank=True, max_length=50)
+    last_name = models.CharField(default="", blank=False, max_length=50)
+    semester = models.PositiveIntegerField(
+        choices=SEMESTER_CHOICES, blank=False, default=1)
+    approved = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.name
+        return f'{self.first_name} {self.last_name}'
+
+    def get_absolute_url(self):
+        return reverse('records:record-update', kwargs={'pk': self.pk})

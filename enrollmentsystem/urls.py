@@ -17,9 +17,26 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from authority import views
+from django.contrib.auth.views import (
+    LoginView,
+    LogoutView,
+)
 
 urlpatterns = [
     path('', include('pages.urls')),
-    path('records/', include('records.urls')),
+    #path('records/', include('records.urls')),
+    #path('accounts/', include("django.contrib.auth.urls")),
     path('admin/', admin.site.urls),
+    path(
+        'accounts/login/',
+        LoginView.as_view(template_name='registration/login.html'),
+        name='login',
+    ),
+    path('admission/', include('records.urls', namespace='records')),
+    path(
+        'accounts/logout/',
+        LogoutView.as_view(),
+        name='logout',
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

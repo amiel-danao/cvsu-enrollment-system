@@ -1,18 +1,22 @@
 .btn-secondary {
-  color: #fff !important; }
+  color: #fff !important;
+}
 
 img {
-  width: 100%; }
+  width: 100%;
+}
 
 .logo {
-  width: 80px; }
+  width: 80px;
+}
 
 .navbar {
   opacity: 0.9;
-  text-transform: uppercase; }
+}
 
 .social a {
-  margin-right: 0.4rem; }
+  margin-right: 0.4rem;
+}
 
 #showcase {
   background-image: url(../img/enrollmentbgm.jpg);
@@ -23,19 +27,24 @@ img {
   position: relative;
   min-height: 650px;
   color: #fff;
-  padding-top: 6rem; }
-  #showcase .home-search {
-    min-height: 400px;
-    position: relative;
-    border-radius: 5px; }
-  #showcase .overlay {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    min-height: 400px;
-    width: 100%;
-    background: rgba(51, 51, 51, 0.8); }
+  padding-top: 6rem;
+}
+
+#showcase .home-search {
+  min-height: 400px;
+  position: relative;
+  border-radius: 5px;
+}
+
+#showcase .overlay {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-height: 400px;
+  width: 100%;
+  background: rgba(51, 51, 51, 0.8);
+}
 
 #services {
   background-image: url(../img/StudentBG.jpg);
@@ -45,15 +54,18 @@ img {
   background-size: cover;
   min-height: 300px;
   position: relative;
-  overflow: hidden; }
-  #services::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    min-height: 100%;
-    width: 100%;
-    background: rgba(32, 134, 107, 0.8); }
+  overflow: hidden;
+}
+
+#services::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-height: 100%;
+  width: 100%;
+  background: rgba(32, 134, 107, 0.8);
+}
 
 #showcase-inner {
   background-image: url(../img/students.jpg);
@@ -63,54 +75,67 @@ img {
   background-size: cover;
   position: relative;
   overflow: hidden;
-  min-height: 200px; }
-  #showcase-inner::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    min-height: 100%;
-    width: 100%;
-    background: rgba(32, 134, 107, 0.8); }
-  #showcase-inner.showcase-search {
-    min-height: 270px; }
+  min-height: 200px;
+}
+
+#showcase-inner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-height: 100%;
+  width: 100%;
+  background: rgba(32, 134, 107, 0.8);
+}
+
+#showcase-inner.showcase-search {
+  min-height: 270px;
+}
 
 #work {
-  padding: 6rem 0; }
+  padding: 6rem 0;
+}
 
 .listing-preview a {
-  position: relative; }
+  position: relative;
+}
 
-.searchheading p{
+.searchheading p {
   font-weight: bold;
 }
-.infobut{
+
+.infobut {
   background: #415779;
   color: white;
   border: 1px solid #10274E;
   border-radius: 3px;
   cursor: pointer;
 }
-.infobut:hover{
+
+.infobut:hover {
   background: #1C3254;
 }
-.studentpropic{
+
+.studentpropic {
   width: 50%;
   height: 280px;
 }
-.card-img-top{
+
+.card-img-top {
   height: 320px;
 }
-.studinfo{
+
+.studinfo {
   margin-bottom: 5px;
 }
 
-.searchlist{
+.searchlist {
   border-bottom: 1px solid #E9ECEF;
   margin-bottom: 15px;
 }
+
 .text-secondary {
-	color: #2c3e50 !important;
+  color: #2c3e50 !important;
 }
 
 #listings {
@@ -120,9 +145,12 @@ img {
 .auth img {
   height: 335px;
 }
-.page-item.active:hover, .page-link:hover {
+
+.page-item.active:hover,
+.page-link:hover {
   color: white !important;
 }
+
 .card-body {
   height: auto;
 }
@@ -130,26 +158,46 @@ img {
 /*Mobile Responsive*/
 @media (max-width: 991px) {
   #showcase {
-    padding-top: 4rem; }
-    #showcase h1 {
-      font-size: 40px; }
+    padding-top: 4rem;
+  }
+
+  #showcase h1 {
+    font-size: 40px;
+  }
+
   .hide-md-down {
-    display: none; } }
+    display: none;
+  }
+}
 
 @media (max-width: 768px) {
   #showcase {
-    padding-top: 3rem; }
-    #showcase h1 {
-      font-size: 40px; }
-    #showcase p {
-      display: none; }
+    padding-top: 3rem;
+  }
+
+  #showcase h1 {
+    font-size: 40px;
+  }
+
+  #showcase p {
+    display: none;
+  }
+
   #top-bar {
-    text-align: center; }
-    #top-bar .social {
-      text-align: center !important; } }
+    text-align: center;
+  }
+
+  #top-bar .social {
+    text-align: center !important;
+  }
+}
 
 @media (max-width: 576px) {
   #showcase h1 {
-    font-size: 30px; }
+    font-size: 30px;
+  }
+
   #showcase-inner h1 {
-    font-size: 40px; } }
+    font-size: 40px;
+  }
+}

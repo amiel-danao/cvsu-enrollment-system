@@ -53,7 +53,7 @@
             <h2 class="display-4">We Work For You</h2>
             <h4>Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem velit aperiam, unde aliquid at similique!</h4>
             <hr>
-            <a href="{% url 'records' %}" class="btn btn-secondary text-white btn-lg">View Our Student Listings</a>
+            <a href="{% url 'records:admission' %}" class="btn btn-secondary text-white btn-lg">View Our Student Listings</a>
         </section>
     
         <!-- Team -->
@@ -61,27 +61,7 @@
             <div class="container">
                 <h2 class="text-center">Our Team</h2>
                 <hr>
-                <div class="row text-center">
-                    {% if authority %}
-                        {% for authority in authority %}
-
-                        <div class="col-md-4 auth">
-                        <img src="{{authority.photo.url}}" alt="" class="rounded-circle mb-3">
-                        <h4>{{authority.title}}</h4>
-                        <p class="text-success">Admin</p>
-                        <hr>
-                        <p>
-                            <i class="fas fa-phone"></i> {{authority.phone}}</p>
-                        <p>
-                            <i class="fas fa-envelope-open"></i> {{authority.email}}</p>
-                        </div>
-
-                        {% endfor %}
-                    {% else %}
-                        <div class="col-md-12">
-                            <p>No Authority Available</p>
-                        </div>
-                    {% endif %}
+                
 
             </div>
         </section>
