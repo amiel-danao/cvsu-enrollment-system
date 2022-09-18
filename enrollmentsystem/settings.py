@@ -26,7 +26,7 @@ SECRET_KEY = '3^5k(!p)rxgr88mei4)51=wyat7#ugg(%%uv%2!ua*0*)wpt(q'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1", "cvsuenrollmentsystem.pythonanywhere.com"]
 
 
 # Application definition
