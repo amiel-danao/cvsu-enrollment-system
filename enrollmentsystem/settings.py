@@ -36,6 +36,8 @@ INSTALLED_APPS = [
     'pages.apps.PagesConfig',
     'authority.apps.AuthorityConfig',
     'records.apps.RecordsConfig',
+    "admin_interface",
+    "colorfield",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -161,3 +163,6 @@ LOGOUT_REDIRECT_URL = '/'  # this is the name of the url
 
 LOGIN_REDIRECT_URL = '/admission/get_admission'  # this is the name of the url
 DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap.html"
+
+X_FRAME_OPTIONS = "SAMEORIGIN"
+SILENCED_SYSTEM_CHECKS = ["security.W019"]
