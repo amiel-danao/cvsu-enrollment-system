@@ -2,6 +2,12 @@ const date = new Date();
 document.querySelector('.year').innerHTML = date.getFullYear();
 
 
-setTimeout(function(){
-    $('#message').fadeout('slow')
-}, 3000);
+$(document).ready(function () {
+    var message = $('#message');
+    if (message.length) {
+        setTimeout(function () {
+            console.log(message);
+            message.fadeout('slow')
+        }, 3000);
+    }
+});
