@@ -79,16 +79,15 @@
 
     
 
-    <div class="container-fluid">
-      <div class="row flex-nowrap">
+  <div class="container-fluid">
+    <div class="row flex-nowrap">
         {% include 'partials/_sidebar.html' %}
-          <main class="col ps-md-2 pt-2">
-              <a href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" class="border rounded-3 p-1 text-decoration-none"><i class="bi bi-list bi-lg py-2 p-1"></i> Menu</a>
-              
+        <main class="col ps-md-2 pt-2">
+          <div class="container-fluid min-vh-100 d-flex flex-column">
     {% block content %} {% endblock %}  
-
+  </div>
     {% include 'partials/_footer.html' %}
-          </main>
+  </main>
     </div></div></div>
   
   <!-- <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script> -->

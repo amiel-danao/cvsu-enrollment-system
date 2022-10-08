@@ -11,7 +11,7 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 import datetime
 
 
-def admission(request):
+def enrollment(request):
     if request.user is None or request.user.is_authenticated is False:
         return redirect('/accounts/login')
 
@@ -47,7 +47,7 @@ def record(request, record_id):
 
 
 class RecordFormView(FormView):
-    template_name = 'admission/admission.html'
+    template_name = 'enrollment/enrollment.html'
     form_class = RecordForm
     success_url = '/thanks/'
 
@@ -81,7 +81,7 @@ def get_current_semester():
     return current_semester
 
 
-def get_admission(request):
+def get_enrollment(request):
     current_semester = get_current_semester()
 
-    return redirect('/admission/add')
+    return redirect('/enrollment/add')

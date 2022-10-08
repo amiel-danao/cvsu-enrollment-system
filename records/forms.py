@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 from records.models import Record, SEMESTER_CHOICES
+from phonenumber_field.formfields import PhoneNumberField
 
 
 class BootstrapModelForm(ModelForm):
@@ -8,6 +9,7 @@ class BootstrapModelForm(ModelForm):
         super(BootstrapModelForm, self).__init__(*args, **kwargs)
         self.fields['semester'] = forms.ChoiceField(
             choices=SEMESTER_CHOICES)
+        self.fields['landline_no'] = PhoneNumberField()
         for field in iter(self.fields):
             self.fields[field].widget.attrs.update({
                 'class': 'form-control'

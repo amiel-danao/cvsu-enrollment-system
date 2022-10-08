@@ -161,7 +161,7 @@ LOGIN_URL = 'login'  # this is the name of the url
 
 LOGOUT_REDIRECT_URL = '/'  # this is the name of the url
 
-LOGIN_REDIRECT_URL = '/admission/get_admission'  # this is the name of the url
+LOGIN_REDIRECT_URL = '/enrollment/get_enrollment'  # this is the name of the url
 DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap.html"
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
