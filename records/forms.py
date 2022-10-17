@@ -2,7 +2,8 @@ from django import forms
 from django.forms import ModelForm
 from records.models import Record, SEMESTER_CHOICES
 from phonenumber_field.formfields import PhoneNumberField
-
+from django.contrib.auth.forms import UserCreationForm
+from authority.models import CustomUser
 
 class BootstrapModelForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -24,3 +25,18 @@ class RecordForm(BootstrapModelForm):
     class Meta:
         model = Record
         fields = '__all__'
+
+
+class NewUserForm(UserCreationForm):
+	email = forms.EmailField(required=True)
+
+	class Meta:
+		model = CustomUser
+		fields = ("email", "password1", "password2")
+
+	def save(self, commit=True):
+		user = super(NewUserForm, self).save(commit=False)
+		user.email = self.cleaned_data['email']
+		if commit:
+			user.save()
+		return user

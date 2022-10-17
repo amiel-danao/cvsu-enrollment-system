@@ -33,6 +33,7 @@ urlpatterns = [
         LoginView.as_view(template_name='registration/login.html'),
         name='login',
     ),
+    path("accounts/register", views.register_request, name="register"),
     path('enrollment/', include('records.urls', namespace='records')),
     path(
         'accounts/logout/',

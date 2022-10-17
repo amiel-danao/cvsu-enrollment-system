@@ -1,17 +1,20 @@
 {% extends 'base.html' %}
-
+{% load crispy_forms_tags %}
 {% block content %}
     <div class="container">
         <div class="row">
             <form method="POST" enctype="multipart/form-data">
-            
+                <div class="row">
                 <!-- Security token -->
                 {% csrf_token %}
-            
+                <div class="col-12">
+                {{form.first_name|as_crispy_field}}
+                </div>
                 <!-- Using the formset -->
-                {{ form.as_p }}
+                {{ form|crispy }}
                 
                 <input type="submit" value="Submit">
+                </div>
             </form>
         </div>
     </div>

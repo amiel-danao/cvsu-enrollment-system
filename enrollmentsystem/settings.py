@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'crispy_forms'
 ]
 
 MIDDLEWARE = [
@@ -166,3 +167,5 @@ DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap.html"
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
 SILENCED_SYSTEM_CHECKS = ["security.W019"]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap'
