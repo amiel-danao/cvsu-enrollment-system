@@ -10,7 +10,6 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 import datetime
 
-
 def enrollment(request):
     if request.user is None or request.user.is_authenticated is False:
         return redirect('/accounts/login')
@@ -59,8 +58,9 @@ class RecordFormView(FormView):
 
 class RecordCreateView(CreateView):
     model = Record
-    fields = [field.name for field in model._meta.get_fields()
-              if field.name not in ['user', 'approved']]
+    # fields = [field.name for field in model._meta.get_fields()
+    #           if field.name not in ['user', 'approved']]
+    form_class = RecordForm
 
 
 class RecordUpdateView(UpdateView):

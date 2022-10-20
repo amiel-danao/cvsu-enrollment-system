@@ -4,27 +4,56 @@ from records.models import Record, SEMESTER_CHOICES
 from phonenumber_field.formfields import PhoneNumberField
 from django.contrib.auth.forms import UserCreationForm
 from authority.models import CustomUser
+from flatpickr import DatePickerInput, TimePickerInput, DateTimePickerInput
 
 class BootstrapModelForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super(BootstrapModelForm, self).__init__(*args, **kwargs)
-        self.fields['semester'] = forms.ChoiceField(
-            choices=SEMESTER_CHOICES)
-        self.fields['landline_no'] = PhoneNumberField()
-        for field in iter(self.fields):
-            self.fields[field].widget.attrs.update({
-                'class': 'form-control'
-            })
+        # for field in iter(self.fields):
+        #     self.fields[field].widget.attrs.update({
+        #         'class': 'form-control'
+        #     })
+
+        self.fields['home_address'] = forms.CharField(
+            label='Address',
+            widget=forms.TextInput(attrs={'placeholder': '1234 Main St'})
+        )
+        self.fields['home_address'].widget.attrs.update({'placeholder': 'House No. & Street / Barangay / Town / Province'})
 
 
-class RecordForm(BootstrapModelForm):
+class RecordForm(forms.ModelForm):
+
     def __init__(self, *args, **kwargs):
         super(RecordForm, self).__init__(*args, **kwargs)
-        #self.fields['name'].widget.attrs.update({'placeholder': 'Enter a name'})
+        self.fields['school_elementary'].label = "Elementary"
+        self.fields['school_year_elemetary'].label = "Year Graduated"
+        self.fields['school_access_elementary'].label = "School type"
+        self.fields['school_address_elementary'].label = "Address"
+
+        self.fields['school_high'].label = "High School"
+        self.fields['school_year_high'].label = "Year Graduated"
+        self.fields['school_access_high'].label = "School type"
+        self.fields['school_address_high'].label = "Address"
 
     class Meta:
         model = Record
-        fields = '__all__'
+        fields = [field.name for field in model._meta.get_fields()
+              if field.name not in ['user', 'approved']]
+        # widgets = {
+        #     'birthday': DatePickerInput(),
+        # }
+
+        
+
+        # semester = forms.ChoiceField(
+        #     choices=SEMESTER_CHOICES)
+        # landline_no = PhoneNumberField()
+
+        # birthday = forms.DateField(
+        #     widget=forms.TextInput(
+        #         attrs={'type': 'date'}
+        #     )
+        # )
 
 
 class NewUserForm(UserCreationForm):

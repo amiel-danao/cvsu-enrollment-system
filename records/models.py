@@ -24,6 +24,21 @@ STUDENT_CLASSIFICATION_CHOICES = [
     (6, "Shiftee From"),
 ]
 
+REGISTRATION_STATUS_CHOICES = [
+    (1, "Regular"),
+    (2, "Irregular"),
+    (3, "Temporary")
+]
+
+SEX_CHOICES = [
+    (1, "Male"),
+    (2, "Female")
+]
+
+SCHOOL_TYPE_CHOICES = [    
+    (1, "Private"),
+    (2, "Public")
+]
 
 class Section(models.Model):
     id = models.BigAutoField(db_column="id", primary_key=True)
@@ -85,14 +100,43 @@ class Record(models.Model):
     )
     student_classification = models.PositiveIntegerField(default=1,
                                                          max_length=1, choices=STUDENT_CLASSIFICATION_CHOICES)
+    registration_status = models.PositiveIntegerField(default=1,
+                                                         max_length=1, choices=REGISTRATION_STATUS_CHOICES)
     shiftee_from = models.CharField(max_length=150, blank=True)
     birthday = models.DateField(default=datetime.datetime.now())
     birthplace = models.CharField(default="", blank=False, max_length=150)
     age = models.PositiveIntegerField(default=18, blank=False, validators=[
                                       MaxValueValidator(100), MinValueValidator(12)])
+    sex = models.PositiveIntegerField(default=1,
+                                        max_length=1, choices=SEX_CHOICES)
+    religion = models.CharField(default="", blank=True, max_length=50)
+    nationality = models.CharField(default="", blank=True, max_length=50)
+    civil_status = models.CharField(default="", blank=True, max_length=50)
 
-    semester = models.PositiveIntegerField(
-        choices=SEMESTER_CHOICES, blank=False, default=1)
+    school_elementary = models.CharField(default="", blank=True, max_length=150)
+    school_year_elemetary = models.PositiveIntegerField(default=datetime.datetime.now().year, blank=True, validators=[
+                                      MaxValueValidator(3000), MinValueValidator(1985)])
+    school_access_elementary = models.PositiveIntegerField(default=1,
+                                                                max_length=1, choices=SCHOOL_TYPE_CHOICES)
+    school_address_elementary = models.CharField(default="", blank=True, max_length=150)
+
+    school_high = models.CharField(default="", blank=True, max_length=150)
+    school_year_high = models.PositiveIntegerField(default=datetime.datetime.now().year, blank=True, validators=[
+                                      MaxValueValidator(3000), MinValueValidator(1985)])
+    school_access_high = models.PositiveIntegerField(default=1,
+                                                                max_length=1, choices=SCHOOL_TYPE_CHOICES)
+    school_address_high = models.CharField(default="", blank=True, max_length=150)
+
+    school_last_attended = models.CharField(default="", blank=True, max_length=150)
+    school_last_attended_address = models.CharField(default="", blank=True, max_length=150)
+
+    parent_guardian = models.CharField(default="", blank=True, max_length=50)
+    parent_address = models.CharField(default="", blank=True, max_length=150)
+    parent_occupation = models.CharField(default="", blank=True, max_length=50)
+    parent_landline_no = PhoneNumberField(blank=True)
+    parent_cellphone_no = PhoneNumberField(blank=True)
+
+    semester = models.PositiveIntegerField(choices=SEMESTER_CHOICES, blank=False, default=1)
     approved = models.BooleanField(default=False)
 
     def __str__(self):

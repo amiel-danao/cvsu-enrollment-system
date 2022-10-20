@@ -1,19 +1,150 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load crispy_forms_tags %}
+
+
+
 {% block content %}
+    <style>
+        .form-icon{
+            max-width:40%;
+        }
+    </style>
+
     <div class="container">
+        
         <div class="row">
-            <form method="POST" enctype="multipart/form-data">
+            <form method="POST" enctype="multipart/form-data" class="row pt-5">                
                 <div class="row">
+                    <div class="col-4">
+                        <img src="{% static 'img/diit.png' %}" class="mx-auto d-block form-icon" alt="cvsu logo">
+                    </div>
+                    <div class="col-auto">
+                        <p class="fs-6 text-center fs-normal lh-1">Republic of the Philippines</p>
+                        <p class="fs-3 text-center fs-bolder lh-1 text-uppercase font-monospace">Cavite State University</p>
+                        <p class="fs-6 text-center fs-bolder lh-1">Silang Campus</p>
+                        <p class="fs-6 text-center fs-normal lh-1">Biga I, Silang, Cavite</p>
+                        <p class="fs-5 text-center fs-bold lh-1 text-uppercase mb-5">Student Information Sheet</p>
+                    </div>
+                </div>
                 <!-- Security token -->
                 {% csrf_token %}
-                <div class="col-12">
-                {{form.first_name|as_crispy_field}}
+                <div class="col-md-4">
+                    {{form.last_name|as_crispy_field}}
                 </div>
-                <!-- Using the formset -->
-                {{ form|crispy }}
-                
-                <input type="submit" value="Submit">
+                <div class="col-md-4">
+                    {{form.first_name|as_crispy_field}}
+                </div>
+                <div class="col-md-4">
+                    {{form.middle_name|as_crispy_field}}
+                </div>
+                <div class="col-md-12">
+                    {{form.home_address|as_crispy_field}}
+                    <p class="fst-italic">
+                        House No. & Street / Barangay / Town / Province
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    {{form.landline_no|as_crispy_field}}
+                </div>
+                <div class="col-md-6">
+                    {{form.cellphone_no|as_crispy_field}}
+                </div>
+                <div class="col-md-12">
+                    {{form.email|as_crispy_field}}
+                </div>
+                <div class="col-md-6">
+                    {{form.course|as_crispy_field}}
+                </div>
+                <div class="col-md-6">
+                    {{form.section|as_crispy_field}}
+                </div>
+                <div class="col-md-12">
+                    {{form.student_classification|as_crispy_field}}
+                </div>
+                <div class="col-md-12">
+                    {{form.shiftee_from|as_crispy_field}}
+                </div>
+                <div class="col-md-12">
+                    {{form.registration_status|as_crispy_field}}
+                </div>
+                <div class="col-md-6">
+                    {{form.birthday|as_crispy_field}}
+                </div>
+                <div class="col-md-6">
+                    {{form.birthplace|as_crispy_field}}
+                </div>
+                <div class="col-md-2">
+                    {{form.age|as_crispy_field}}
+                </div>
+                <div class="col-md-2">
+                    {{form.sex|as_crispy_field}}
+                </div>
+                <div class="col-md-2">
+                    {{form.religion|as_crispy_field}}
+                </div>
+                <div class="col-md-2">
+                    {{form.nationality|as_crispy_field}}
+                </div>
+                <div class="col-md-2">
+                    {{form.civil_status|as_crispy_field}}
+                </div>
+                <p class="fs-4">Educational Background</p>
+                <div class="row justify-content-md-right">
+                    <div class="col-md-10">
+                        {{form.school_elementary|as_crispy_field}}
+                    </div>
+                    <div class="col-md-4">
+                        {{form.school_year_elemetary|as_crispy_field}}
+                    </div>
+                    <div class="col-md-4">
+                        {{form.school_access_elementary|as_crispy_field}}
+                    </div>
+                    <div class="col-md-10">
+                        {{form.school_address_elementary|as_crispy_field}}
+                    </div>
+
+                    <div class="col-md-10">
+                        {{form.school_high|as_crispy_field}}
+                    </div>
+                    <div class="col-md-4">
+                        {{form.school_year_high|as_crispy_field}}
+                    </div>
+                    <div class="col-md-4">
+                        {{form.school_access_high|as_crispy_field}}
+                    </div>
+                    <div class="col-md-10">
+                        {{form.school_address_high|as_crispy_field}}
+                    </div>
+
+                    <p class="fs-5">For Transferees/Cross Enrollees</p>
+                    <div class="col-md-10">
+                        {{form.school_last_attended|as_crispy_field}}
+                    </div>
+                    <div class="col-md-10">
+                        {{form.school_last_attended_address|as_crispy_field}}
+                    </div>
+                    
+                </div>
+                <hr>
+                <div class="col-md-12">
+                    {{form.parent_guardian|as_crispy_field}}
+                </div>
+                <div class="col-md-12">
+                    {{form.parent_address|as_crispy_field}}
+                </div>
+                <div class="col-md-12">
+                    {{form.parent_occupation|as_crispy_field}}
+                </div>
+
+                <div class="col-md-6">
+                    {{form.parent_landline_no|as_crispy_field}}
+                </div>
+                <div class="col-md-6">
+                    {{form.parent_cellphone_no|as_crispy_field}}
+                </div>
+                <div class="col-4 mb-5">
+                    <input type="submit" class="btn btn-success" value="Submit">
                 </div>
             </form>
         </div>
