@@ -39,6 +39,11 @@
                         </li>
                     </ul>
                 </li>
+                <li class="nav-item">
+                    <a href="{% url 'myaccount' %}" class="nav-link align-middle px-0">
+                        <i class="bi bi-person-circle"></i><span class="ms-1 d-none d-sm-inline">My Account</span>
+                    </a>
+                </li>
                 {% else %}
                     <li class="nav-item">
                         <a href="{% url 'login' %}" class="nav-link align-middle px-0">
@@ -50,7 +55,7 @@
                 
                 <li>
                     <a href="{% url 'about' %}" class="nav-link px-0 align-middle">
-                        <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">About</span> </a>
+                        <i class="bi bi-question-circle-fill"></i> <span class="ms-1 d-none d-sm-inline">About</span> </a>
                 </li>
             </ul>
             <hr>

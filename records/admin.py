@@ -7,6 +7,7 @@ class RecordAdmin(admin.ModelAdmin):
     list_display_links = ('id', )
     search_fields = ('first_name', 'middle_name', 'last_name')
     list_per_page = 30
+    readonly_fields = ('user',)
 
 
 # Register your models here.

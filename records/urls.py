@@ -5,7 +5,7 @@ app_name = 'records'
 
 urlpatterns = [
     path('', views.enrollment, name='enrollment'),
-    path('<int:record_id>', views.record, name='record'),
+    #path('<int:record_id>', views.record, name='record'),
     path('add/', views.RecordCreateView.as_view(), name='record-add'),
     path('get_enrollment/', views.get_enrollment, name='get-enrollment'),
     path('enrollment/<int:pk>/',
