@@ -2,6 +2,18 @@
 {% load static %}
 {% load crispy_forms_tags %}
 
+{% block mycss %} 
+    <style>    
+        .incomplete{
+            color:red;
+        }
+        .complete{
+            color:lime;
+        }
+    </style>
+{% endblock mycss %}
+
+
 {% block content %}
 
     <div class="container-fluid">
@@ -13,6 +25,96 @@
             </p>
             <hr>
 
+            <!--Grid row-->
+            <div class="row d-flex justify-content-center">
+
+                <!--Grid column-->
+                <div class="col-md-6">
+                    <h4>Branch: <a href="https://cvsu.edu.ph/"><u>CvSU-Main</u></a></h4>
+                    <div class="row">
+                        <h4>Admission Information</h4>
+                        <ul style="list-style: none;">
+                            <li>
+                            {% if record.status_admission_information %}
+                                <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Completed</a></span>
+                            {% else %}
+                                <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Incomplete</a></span>
+                            {% endif %}
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="row">
+                        <h4>Personal Information</h4>
+                        <ul style="list-style: none;">
+                            <li>
+                            {% if record.status_personal_information %}
+                                <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Completed</a></span>
+                            {% else %}
+                                <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Incomplete</a></span>
+                            {% endif %}
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="row">
+                        <h4>Family Background</h4>
+                        <ul style="list-style: none;">
+                            <li>
+                            {% if record.status_family_background %}
+                                <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Completed</a></span>
+                            {% else %}
+                                <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Incomplete</a></span>
+                            {% endif %}
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="row">
+                        <h4>Educational Background</h4>
+                        <ul style="list-style: none;">
+                            <li>
+                            {% if record.status_educational_background %}
+                                <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Completed</a></span>
+                            {% else %}
+                                <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Incomplete</a></span>
+                            {% endif %}
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="row">
+                        <h4>Medical History</h4>
+                        <ul style="list-style: none;">
+                            <li>
+                            {% if record.status_medical_history %}
+                                <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Completed</a></span>
+                            {% else %}
+                                <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Incomplete</a></span>
+                            {% endif %}
+                            </li>
+                        </ul>
+                    </div>
+            
+                </div>
+
+                <div class="col-md-6 bg-secondary bg-opacity-25">
+                    <p class="fw-bold fs-5 text-center">
+                        Please complete the sections to get your control number and your application form
+                    </p>
+
+                    <p class="fw-normal text-center">
+                        For questions and Technical problems.
+                        <br>
+                        <a href="https://cvsu.edu.ph/2022/01/20/admission-requirements-and-procedures-for-first-semester-ay-2022-2023/">Contact Admission Office</a>
+                    </p>
+                    
+
+                </div>
+                <!--Grid column-->
+            
+            </div>
+            <!--Grid row-->
             
         </div>
     </div>
