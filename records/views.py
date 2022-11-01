@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.shortcuts import redirect
 from records.forms import RecordForm
 from records.tables import RecordsTable
-from .models import Record
+from .models import FormsApproval, Record
 from records.choices import department_choices
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.views.generic.edit import FormView
@@ -63,6 +63,8 @@ class RecordCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.user = self.request.user
+        if form.instance.forms_approval is None:
+            form.instance.forms_approval = FormsApproval.objects.create()
         return super(RecordCreateView, self).form_valid(form)
 
     def get_form(self, *args, **kwargs):

@@ -1,13 +1,38 @@
 from django.contrib import admin
-from .models import Course, Department, Record, Subject
+
+from records.forms import APPLICATION_FORM_FIELDS, APPLICATION_FORM_FIELDS_TRANSFEREE
+from .models import Course, Department, FormsApproval, Record, Subject
+from django.forms import ModelForm
+
+
+@admin.register(FormsApproval)
+class FormsApprovalAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
+class RecordAdminForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['forms_approval'].disabled = True
+        self.fields['forms_approval'].widget.can_change_related = False
+
+    class Meta:
+        model = Record
+        fields = '__all__'
 
 
 class RecordAdmin(admin.ModelAdmin):
-    list_display = ('id', 'first_name', 'middle_name', 'last_name')
+    form = RecordAdminForm
+    list_display = ('id', 'first_name', 'middle_name',
+                    'last_name', 'school_year')
     list_display_links = ('id', )
-    search_fields = ('first_name', 'middle_name', 'last_name')
+    search_fields = ('first_name', 'middle_name', 'last_name', 'school_year')
     list_per_page = 30
-    readonly_fields = ('user',)
+    readonly_fields = ('user', )
 
 
 # Register your models here.

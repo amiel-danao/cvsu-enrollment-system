@@ -10,6 +10,9 @@
         .complete{
             color:lime;
         }
+        .no-bullet{
+            list-style: none;
+        }
     </style>
 {% endblock mycss %}
 
@@ -27,80 +30,175 @@
 
             <!--Grid row-->
             <div class="row d-flex justify-content-center">
-
+                {% if form %}
                 <!--Grid column-->
                 <div class="col-md-6">
-                    <h4>Branch: <a href="https://cvsu.edu.ph/"><u>CvSU-Main</u></a></h4>
-                    <div class="row">
-                        <h4>Admission Information</h4>
-                        <ul style="list-style: none;">
-                            <li>
-                            {% if record.status_admission_information %}
-                                <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Completed</a></span>
-                            {% else %}
-                                <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Incomplete</a></span>
-                            {% endif %}
-                            </li>
-                        </ul>
-                    </div>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
 
-                    <div class="row">
-                        <h4>Personal Information</h4>
-                        <ul style="list-style: none;">
-                            <li>
-                            {% if record.status_personal_information %}
-                                <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Completed</a></span>
-                            {% else %}
-                                <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Incomplete</a></span>
-                            {% endif %}
-                            </li>
-                        </ul>
-                    </div>
+                        {% if record.student_classification is not 3%}
+                            <div class="row">
+                                <h4>Form 137</h4>
 
-                    <div class="row">
-                        <h4>Family Background</h4>
-                        <ul style="list-style: none;">
-                            <li>
-                            {% if record.status_family_background %}
-                                <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Completed</a></span>
-                            {% else %}
-                                <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Incomplete</a></span>
-                            {% endif %}
-                            </li>
-                        </ul>
-                    </div>
+                                <ul class="no-bullet">
+                                    <li>
+                                    {% if record.form_137 %}
+                                        <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold file">Completed</a>
+                                    {% else %}
+                                        <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold file">Incomplete</a>
+                                    {% endif %}
+                                        {{form.form_137|as_crispy_field}}
+                                        <!-- <input type="file" name="form_137" value="" />                                     -->
+                                    </span>
+                                    </li>
+                                </ul>
+                            </div>
 
-                    <div class="row">
-                        <h4>Educational Background</h4>
-                        <ul style="list-style: none;">
-                            <li>
-                            {% if record.status_educational_background %}
-                                <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Completed</a></span>
-                            {% else %}
-                                <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Incomplete</a></span>
-                            {% endif %}
-                            </li>
-                        </ul>
-                    </div>
+                            <div class="row">
+                                <h4>Card/138</h4>
+                                <ul class="no-bullet">
+                                    <li>
+                                    {% if record.card_138 %}
+                                        <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Completed</a>
+                                    {% else %}
+                                        <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Incomplete</a>
+                                    {% endif %}
+                                        {{form.form_137|card_138}}
+                                        <!-- <input type="file" name="card_138" /> -->
+                                    </span>
+                                    </li>
+                                </ul>
+                            </div>
 
-                    <div class="row">
-                        <h4>Medical History</h4>
-                        <ul style="list-style: none;">
-                            <li>
-                            {% if record.status_medical_history %}
-                                <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Completed</a></span>
-                            {% else %}
-                                <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Incomplete</a></span>
-                            {% endif %}
-                            </li>
-                        </ul>
-                    </div>
-            
+                            <div class="row">
+                                <h4>Good Moral</h4>
+                                <ul class="no-bullet">
+                                    <li>
+                                    {% if record.status_family_background %}
+                                        <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Completed</a>
+                                    {% else %}
+                                        <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Incomplete</a>
+                                    {% endif %}
+                                        <input type="file" name="goodmoral" />
+                                    </span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="row">
+                                <h4>Notice of Admission</h4>
+                                <ul class="no-bullet">
+                                    <li>
+                                    {% if record.notice_of_admission %}
+                                        <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Completed</a>
+                                    {% else %}
+                                        <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Incomplete</a>
+                                    {% endif %}
+                                        <input type="file" name="notice_of_admission" />
+                                    </span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="row">
+                                <h4>Medical Clearance</h4>
+                                <ul class="no-bullet">
+                                    <li>
+                                    {% if record.medical_clearance %}
+                                        <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Completed</a>
+                                    {% else %}
+                                        <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Incomplete</a>
+                                    {% endif %}
+                                        <input type="file" name="medical_clearance" />
+                                    </span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="row">
+                                <h4>Application Form</h4>
+                                <ul class="no-bullet">
+                                    <li>
+                                    {% if record.application_form %}
+                                        <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Completed</a>
+                                    {% else %}
+                                        <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Incomplete</a>
+                                    {% endif %}
+                                        <input type="file" name="application_form" />
+                                    </span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        {% else %}
+
+                            <div class="row">
+                                <h4>Transcript of Record</h4>
+                                <ul class="no-bullet">
+                                    <li>
+                                    {% if record.transcript_of_record %}
+                                        <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Completed</a>
+                                    {% else %}
+                                        <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Incomplete</a>
+                                    {% endif %}
+                                        <input type="file" name="transcript_of_record" />
+                                    </span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="row">
+                                <h4>Notice of Admission</h4>
+                                <ul class="no-bullet">
+                                    <li>
+                                    {% if record.notice_of_admission %}
+                                        <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Completed</a>
+                                    {% else %}
+                                        <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Incomplete</a>
+                                    {% endif %}
+                                        <input type="file" name="notice_of_admission" />
+                                    </span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="row">
+                                <h4>Certificate of Transfer</h4>
+                                <ul class="no-bullet">
+                                    <li>
+                                    {% if record.cert_of_transfer %}
+                                        <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Completed</a>
+                                    {% else %}
+                                        <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Incomplete</a>
+                                    {% endif %}
+                                        <input type="file" name="cert_of_transfer" />
+                                    </span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        {% endif %}
+
+                        <div class="row">
+                            <div class="col-4 mb-5">
+                                <button class="btn btn-success" type="submit">Update</button>
+                            </div>
+                        </div>                        
+                    </form>
                 </div>
+
+                {% else %}
+
+                <div class="col-md-6">
+                    <h1>No existing Enrollment.<br> Please enroll first!</h1>
+                </div>
+
+                {% endif %}
+            
 
                 <div class="col-md-6 bg-secondary bg-opacity-25">
                     <p class="fw-bold fs-5 text-center">
-                        Please complete the sections to get your control number and your application form
+                        Please complete the sections to get your registration form and student number
                     </p>
 
                     <p class="fw-normal text-center">
@@ -119,4 +217,12 @@
         </div>
     </div>
 
+    <script>
+        $('form').on('click', '.file', function(event) {
+            event.preventDefault();
+            $(this).parent().next('div').toggle();
+        });
+
+
+    </script>
 {% endblock %}

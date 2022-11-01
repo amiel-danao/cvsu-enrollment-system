@@ -8,6 +8,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from authority.models import CustomUser
 from django.core.validators import MaxValueValidator, MinValueValidator
 
+
 SEMESTER_CHOICES = [
     (1, 1),
     (2, 2),
@@ -85,9 +86,26 @@ class Course(models.Model):
         return self.course_name
 
 
+class FormsApproval(models.Model):
+    form_137 = models.BooleanField(default=False)
+    card_138 = models.BooleanField(default=False)
+    goodmoral = models.BooleanField(default=False)
+    notice_of_admission = models.BooleanField(default=False)
+    medical_clearance = models.BooleanField(default=False)
+    application_form = models.BooleanField(default=False)
+    transcript_of_record = models.BooleanField(default=False)
+    notice_of_admission = models.BooleanField(default=False)
+    cert_of_transfer = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'Forms Approval {self.id}'
+
+
 class Record(models.Model):
     user = models.ForeignKey(
         CustomUser, on_delete=models.SET_NULL, blank=True, null=True)
+    forms_approval = models.OneToOneField(
+        FormsApproval, on_delete=models.CASCADE)
     first_name = models.CharField(default="", blank=False, max_length=50)
     middle_name = models.CharField(blank=True, max_length=50)
     last_name = models.CharField(default="", blank=False, max_length=50)
@@ -148,6 +166,33 @@ class Record(models.Model):
     semester = models.PositiveIntegerField(
         choices=SEMESTER_CHOICES, blank=False, default=1)
     approved = models.BooleanField(default=False)
+
+    form_137 = models.FileField(
+        blank=True, upload_to='documents/')
+
+    card_138 = models.FileField(
+        blank=True, upload_to='documents/')
+
+    goodmoral = models.FileField(
+        blank=True, upload_to='documents/')
+
+    notice_of_admission = models.FileField(
+        blank=True, upload_to='documents/')
+
+    medical_clearance = models.FileField(
+        blank=True, upload_to='documents/')
+
+    application_form = models.FileField(
+        blank=True, upload_to='documents/')
+
+    transcript_of_record = models.FileField(
+        blank=True, upload_to='documents/')
+
+    notice_of_admission = models.FileField(
+        blank=True, upload_to='documents/')
+
+    cert_of_transfer = models.FileField(
+        blank=True, upload_to='documents/')
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'

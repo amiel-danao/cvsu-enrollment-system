@@ -5,6 +5,24 @@ from phonenumber_field.formfields import PhoneNumberField
 from django.contrib.auth.forms import UserCreationForm
 from authority.models import CustomUser
 from flatpickr import DatePickerInput, TimePickerInput, DateTimePickerInput
+from django.forms.widgets import FileInput
+
+APPLICATION_FORM_FIELDS = (
+    'form_137',
+    'card_138',
+    'goodmoral',
+    'notice_of_admission',
+    'medical_clearance',
+    'application_form',
+)
+
+APPLICATION_FORM_FIELDS_TRANSFEREE = (
+    'transcript_of_record',
+    'notice_of_admission',
+    'medical_clearance',
+    'application_form',
+    'cert_of_transfer'
+)
 
 
 class BootstrapModelForm(ModelForm):
@@ -80,3 +98,14 @@ class NewUserForm(UserCreationForm):
         if commit:
             user.save()
         return user
+
+
+class ApplicationForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ApplicationForm, self).__init__(*args, **kwargs)
+        self.fields['form_137'].label = ""
+
+    class Meta:
+        model = Record
+        fields = (APPLICATION_FORM_FIELDS +
+                  APPLICATION_FORM_FIELDS_TRANSFEREE)
