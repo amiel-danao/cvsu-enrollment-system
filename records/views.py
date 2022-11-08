@@ -12,6 +12,7 @@ import datetime
 from django.forms.models import model_to_dict
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
+from django.http import JsonResponse
 
 
 def enrollment(request):
@@ -62,10 +63,20 @@ class RecordCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('records:enrollment')
 
     def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.user = self.request.user
         form.instance.user = self.request.user
         if form.instance.forms_approval is None:
             form.instance.forms_approval = FormsApproval.objects.create()
+        instance.save()
         return super(RecordCreateView, self).form_valid(form)
+
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        if self.request.accepts('text/html'):
+            return response
+        else:
+            return JsonResponse(form.errors, status=400)
 
     def get_form(self, *args, **kwargs):
         try:

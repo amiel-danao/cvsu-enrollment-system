@@ -1,6 +1,5 @@
 from django.contrib import admin
 
-from records.forms import APPLICATION_FORM_FIELDS, APPLICATION_FORM_FIELDS_TRANSFEREE
 from .models import Course, Department, FormsApproval, Record, Subject
 from django.forms import ModelForm
 

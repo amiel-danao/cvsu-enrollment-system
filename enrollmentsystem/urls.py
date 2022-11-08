@@ -41,4 +41,5 @@ urlpatterns = [
         LogoutView.as_view(),
         name='logout',
     ),
+    path("accounts/downloadform", views.download_form, name="download-form"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -13,7 +13,22 @@
         .no-bullet{
             list-style: none;
         }
+        /* Style buttons */
+        .btn {
+            background-color: green;
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        /* Darker background on mouse-over */
+        .btn:hover {
+            background-color: lime;
+        }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 {% endblock mycss %}
 
 
@@ -43,12 +58,11 @@
                                 <ul class="no-bullet">
                                     <li>
                                     {% if record.form_137 %}
-                                        <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold file">Completed</a>
+                                        <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="javascript:clickFileExpand('div_id_form_137')" class="fw-bold" data-expand="div_id_form_137">Completed</a>
                                     {% else %}
-                                        <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold file">Incomplete</a>
+                                        <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="javascript:clickFileExpand('div_id_form_137')" class="fw-bold" data-expand="div_id_form_137">Incomplete</a>
                                     {% endif %}
                                         {{form.form_137|as_crispy_field}}
-                                        <!-- <input type="file" name="form_137" value="" />                                     -->
                                     </span>
                                     </li>
                                 </ul>
@@ -59,11 +73,11 @@
                                 <ul class="no-bullet">
                                     <li>
                                     {% if record.card_138 %}
-                                        <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Completed</a>
+                                        <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="javascript:clickFileExpand('div_id_card_138')" class="fw-bold" data-expand="div_id_card_138">Completed</a>
                                     {% else %}
-                                        <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Incomplete</a>
+                                        <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="javascript:clickFileExpand('div_id_card_138')" class="fw-bold" data-expand="div_id_card_138">Incomplete</a>
                                     {% endif %}
-                                        {{form.form_137|card_138}}
+                                        {{form.card_138|as_crispy_field}}
                                         <!-- <input type="file" name="card_138" /> -->
                                     </span>
                                     </li>
@@ -74,12 +88,13 @@
                                 <h4>Good Moral</h4>
                                 <ul class="no-bullet">
                                     <li>
-                                    {% if record.status_family_background %}
-                                        <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Completed</a>
+                                    {% if record.goodmoral %}
+                                        <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="javascript:clickFileExpand('div_id_goodmoral')" class="fw-bold" data-expand="div_id_goodmoral">Completed</a>
                                     {% else %}
-                                        <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Incomplete</a>
+                                        <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="javascript:clickFileExpand('div_id_goodmoral')" class="fw-bold" data-expand="div_id_goodmoral">Incomplete</a>
                                     {% endif %}
-                                        <input type="file" name="goodmoral" />
+                                        {{form.goodmoral|as_crispy_field}}
+                                        <!-- <input type="file" name="goodmoral" /> -->
                                     </span>
                                     </li>
                                 </ul>
@@ -90,11 +105,11 @@
                                 <ul class="no-bullet">
                                     <li>
                                     {% if record.notice_of_admission %}
-                                        <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Completed</a>
+                                        <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="javascript:clickFileExpand('div_id_notice_of_admission')" class="fw-bold" data-expand="div_id_notice_of_admission">Completed</a>
                                     {% else %}
-                                        <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Incomplete</a>
+                                        <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="javascript:clickFileExpand('div_id_notice_of_admission')" class="fw-bold" data-expand="div_id_notice_of_admission">Incomplete</a>
                                     {% endif %}
-                                        <input type="file" name="notice_of_admission" />
+                                        {{form.notice_of_admission|as_crispy_field}}
                                     </span>
                                     </li>
                                 </ul>
@@ -105,11 +120,11 @@
                                 <ul class="no-bullet">
                                     <li>
                                     {% if record.medical_clearance %}
-                                        <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Completed</a>
+                                        <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="javascript:clickFileExpand('div_id_medical_clearance')" class="fw-bold" data-expand="div_id_medical_clearance">Completed</a>
                                     {% else %}
-                                        <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Incomplete</a>
+                                        <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="javascript:clickFileExpand('div_id_medical_clearance')" class="fw-bold" data-expand="div_id_medical_clearance">Incomplete</a>
                                     {% endif %}
-                                        <input type="file" name="medical_clearance" />
+                                        {{form.medical_clearance|as_crispy_field}}
                                     </span>
                                     </li>
                                 </ul>
@@ -120,11 +135,11 @@
                                 <ul class="no-bullet">
                                     <li>
                                     {% if record.application_form %}
-                                        <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Completed</a>
+                                        <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="javascript:clickFileExpand('div_id_application_form')" class="fw-bold" data-expand="div_id_application_form">Completed</a>
                                     {% else %}
-                                        <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Incomplete</a>
+                                        <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="javascript:clickFileExpand('div_id_application_form')" class="fw-bold" data-expand="div_id_application_form">Incomplete</a>
                                     {% endif %}
-                                        <input type="file" name="application_form" />
+                                        {{form.application_form|as_crispy_field}}
                                     </span>
                                     </li>
                                 </ul>
@@ -137,11 +152,11 @@
                                 <ul class="no-bullet">
                                     <li>
                                     {% if record.transcript_of_record %}
-                                        <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Completed</a>
+                                        <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="javascript:clickFileExpand('div_id_transcript_of_record')" class="fw-bold" data-expand="div_id_transcript_of_record">Completed</a>
                                     {% else %}
-                                        <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Incomplete</a>
+                                        <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="javascript:clickFileExpand('div_id_transcript_of_record')" class="fw-bold" data-expand="div_id_transcript_of_record">Incomplete</a>
                                     {% endif %}
-                                        <input type="file" name="transcript_of_record" />
+                                        {{form.transcript_of_record|as_crispy_field}}
                                     </span>
                                     </li>
                                 </ul>
@@ -152,11 +167,41 @@
                                 <ul class="no-bullet">
                                     <li>
                                     {% if record.notice_of_admission %}
-                                        <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Completed</a>
+                                        <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="javascript:clickFileExpand('div_id_notice_of_admission')" class="fw-bold" data-expand="div_id_notice_of_admission">Completed</a>
                                     {% else %}
-                                        <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Incomplete</a>
+                                        <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="javascript:clickFileExpand('div_id_notice_of_admission')" class="fw-bold" data-expand="div_id_notice_of_admission">Incomplete</a>
                                     {% endif %}
-                                        <input type="file" name="notice_of_admission" />
+                                        {{form.notice_of_admission|as_crispy_field}}
+                                    </span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="row">
+                                <h4>Medical Clearance</h4>
+                                <ul class="no-bullet">
+                                    <li>
+                                    {% if record.medical_clearance %}
+                                        <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="javascript:clickFileExpand('div_id_medical_clearance')" class="fw-bold" data-expand="div_id_medical_clearance">Completed</a>
+                                    {% else %}
+                                        <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="javascript:clickFileExpand('div_id_medical_clearance')" class="fw-bold" data-expand="div_id_medical_clearance">Incomplete</a>
+                                    {% endif %}
+                                        {{form.medical_clearance|as_crispy_field}}
+                                    </span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="row">
+                                <h4>Application Form</h4>
+                                <ul class="no-bullet">
+                                    <li>
+                                    {% if record.application_form %}
+                                        <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="javascript:clickFileExpand('div_id_application_form')" class="fw-bold" data-expand="div_id_application_form">Completed</a>
+                                    {% else %}
+                                        <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="javascript:clickFileExpand('div_id_application_form')" class="fw-bold" data-expand="div_id_application_form">Incomplete</a>
+                                    {% endif %}
+                                        {{form.application_form|as_crispy_field}}
                                     </span>
                                     </li>
                                 </ul>
@@ -167,11 +212,11 @@
                                 <ul class="no-bullet">
                                     <li>
                                     {% if record.cert_of_transfer %}
-                                        <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Completed</a>
+                                        <i class="bi bi-check-circle complete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="javascript:clickFileExpand('div_id_cert_of_transfer')" class="fw-bold" data-expand="div_id_cert_of_transfer">Completed</a>
                                     {% else %}
-                                        <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="#" class="fw-bold">Incomplete</a>
+                                        <i class="bi bi-x-circle incomplete fs-4"></i><span class="ms-1 d-none d-sm-inline"><a href="javascript:clickFileExpand('div_id_cert_of_transfer')" class="fw-bold" data-expand="div_id_cert_of_transfer">Incomplete</a>
                                     {% endif %}
-                                        <input type="file" name="cert_of_transfer" />
+                                        {{form.cert_of_transfer|as_crispy_field}}
                                     </span>
                                     </li>
                                 </ul>
@@ -197,9 +242,14 @@
             
 
                 <div class="col-md-6 bg-secondary bg-opacity-25">
-                    <p class="fw-bold fs-5 text-center">
-                        Please complete the sections to get your registration form and student number
-                    </p>
+                    {% if all_files_ok %}
+                        <a href="{% url 'download-form' %}" style="width:100%" class="btn" role="button"><i class="fa fa-download"></i>Download your registration form</a>
+                    {% else %}
+                        <p class="fw-bold fs-5 text-center">
+                            Please complete the sections to get your registration form and student number
+                        </p>
+                    {% endif %}
+                    
 
                     <p class="fw-normal text-center">
                         For questions and Technical problems.
@@ -218,10 +268,18 @@
     </div>
 
     <script>
-        $('form').on('click', '.file', function(event) {
-            event.preventDefault();
-            $(this).parent().next('div').toggle();
-        });
+
+        function clickFileExpand(elem){
+            // $(this).parent().next('div').toggle();
+            console.log(elem);
+            let dom = document.getElementById(elem);
+            $(dom).toggle();
+            //console.log(elem.getAttribute('data-type'));
+        }
+        // $('form').on('click', '.file', function(event) {
+        //     event.preventDefault();
+        //     $(this).parent().next('div').toggle();
+        // });
 
 
     </script>

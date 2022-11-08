@@ -9,6 +9,8 @@ from authority.models import CustomUser
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 
+TRANSFEREE_INDEX = 3
+
 SEMESTER_CHOICES = [
     (1, 1),
     (2, 2),
@@ -19,7 +21,7 @@ SEMESTER_CHOICES = [
 STUDENT_CLASSIFICATION_CHOICES = [
     (1, "New"),
     (2, "Continuing"),
-    (3, "Transferee"),
+    (TRANSFEREE_INDEX, "Transferee"),
     (4, "Returnee"),
     (5, "Cross Enrollee"),
     (6, "Shiftee From"),

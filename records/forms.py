@@ -103,7 +103,8 @@ class NewUserForm(UserCreationForm):
 class ApplicationForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ApplicationForm, self).__init__(*args, **kwargs)
-        self.fields['form_137'].label = ""
+        for field_name in self.fields:
+            self.fields[field_name].label = ""
 
     class Meta:
         model = Record
