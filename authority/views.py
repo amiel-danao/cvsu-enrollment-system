@@ -5,13 +5,16 @@ from django.contrib import messages
 from django.contrib.auth import login
 from django.core.files.storage import FileSystemStorage
 from authority.models import CustomUser
-from records.forms import APPLICATION_FORM_FIELDS, APPLICATION_FORM_FIELDS_TRANSFEREE, ApplicationForm, NewUserForm
-from records.models import STUDENT_CLASSIFICATION_CHOICES, TRANSFEREE_INDEX, FormsApproval, Record
+from records.forms import APPLICATION_FORM_FIELDS, APPLICATION_FORM_FIELDS_TRANSFEREE, ApplicationForm, NewUserForm, RecordForm
+from records.models import REGISTRATION_STATUS_CHOICES, STUDENT_CLASSIFICATION_CHOICES, TRANSFEREE_INDEX, FormsApproval, Record
 from django.core.exceptions import BadRequest
 from django.http import HttpResponse
 from docx import Document
 from django.core.mail import send_mail
 from django.conf import settings
+from django.views.generic.detail import DetailView
+from django.core import serializers
+from django.forms.models import model_to_dict
 
 
 def index(request):
@@ -35,9 +38,10 @@ def register_request(request):
     return render(request=request, template_name="registration/register.html", context={"register_form": form})
 
 
-def my_account(request):
+def my_application(request):
     try:
-        latest_record = Record.objects.latest('school_year')
+        latest_record = Record.objects.filter(
+            user=request.user).order_by('school_year').reverse().first()
         if request.method == 'POST':
             form = ApplicationForm(
                 request.POST, request.FILES, instance=latest_record)
@@ -58,19 +62,41 @@ def my_account(request):
                 #     'amielrenaissance4@gmail.com', 'amiel.danao@yahoo.com']
                 send_mail('CVSU Enrollment-System Form Uploaded', email_message,
                           request.user.email, to_emails, fail_silently=False, html_message=email_message)
-                return redirect('myaccount')
+                return redirect('application')
         else:
             form = ApplicationForm(instance=latest_record)
 
         all_files_ok = is_all_files_ok(latest_record)
 
-        return render(request, 'pages/account.html', {
+        return render(request, 'pages/application.html', {
             'form': form,
             'record': latest_record.forms_approval,
             'all_files_ok': all_files_ok,
         })
     except Record.DoesNotExist:
-        return render(request, 'pages/account.html')
+        return render(request, 'pages/application.html')
+
+
+def user_profile(request):
+    try:
+        record = Record.objects.filter(
+            user=request.user).order_by('school_year').reverse().first()
+    except:
+        raise Record.DoesNotExist("Permission Denied!")
+
+    if record.user.id is not request.user.id:
+        raise PermissionError("Permission Denied!")
+
+    # record_form = RecordForm(data=model_to_dict(record))
+    # data = serializers.serialize("python", Record.objects.all())
+    is_approved = is_all_files_ok(record)
+    context = {
+        'record': record,
+        'student_id': get_student_id(record),
+        'registration_status': REGISTRATION_STATUS_CHOICES[record.registration_status][1],
+        'enrollment_status': "Approved" if is_approved else "Pending"
+    }
+    return render(request, 'authority/customuser_detail.html', context)
 
 
 def uncheck_cleared_files(latest_record, files):
@@ -103,7 +129,8 @@ def download_form(request):
     if request.user is None or request.user.is_authenticated is False:
         return redirect('/accounts/login')
 
-    latest_record = Record.objects.filter(user=request.user).first()
+    latest_record = Record.objects.filter(
+        user=request.user).order_by('school_year').reverse().first()
 
     if latest_record is None:
         raise Record.DoesNotExist

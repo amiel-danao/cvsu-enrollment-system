@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block mycss %} 
+    <style>    
+        .incomplete{
+            color:red;
+        }
+        .complete{
+            color:lime;
+        }
+        .no-bullet{
+            list-style: none;
+        }
+        /* Style buttons */
+        .btn {
+            background-color: green;
+            border: none;
+            color: white;
+            padding: 12px 30px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        /* Darker background on mouse-over */
+        .btn:hover {
+            background-color: lime;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% endblock mycss %}
+
+
+{% block content %}
+    {% csrf_token %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Basic Information</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Student Id : {{ student_id }}</h6>
+                    <p class="card-text">First Name : {{ record.first_name }}</p>
+                    <p class="card-text">Middle Name : {{ record.middle_name }}</p>
+                    <p class="card-text">Last Name : {{ record.last_name }}</p>
+                    <p class="card-text">Contact No. : {{ record.cellphone_no }}</p>
+                    <p class="card-text">Email :<a href="#" class="card-link">{{ record.email }}</a></p>
+                    <p class="card-text">Home Address : {{ record.home_address }}</p>                    
+                    <hr>
+                    <h5 class="card-title">Enrollment Information</h5>
+                    <p class="card-text">Registration Status : {{ registration_status }}</p>
+                    <p class="card-text">Enrollment Status : {{ enrollment_status }}</p>
+                </div>
+              </div>
+        </div>
+    </div>
+{% endblock %}

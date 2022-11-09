@@ -13,6 +13,7 @@ from django.forms.models import model_to_dict
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.http import JsonResponse
+from django.http import HttpResponseRedirect
 
 
 def enrollment(request):
@@ -66,10 +67,22 @@ class RecordCreateView(LoginRequiredMixin, CreateView):
         instance = form.save(commit=False)
         instance.user = self.request.user
         form.instance.user = self.request.user
-        if form.instance.forms_approval is None:
-            form.instance.forms_approval = FormsApproval.objects.create()
         instance.save()
         return super(RecordCreateView, self).form_valid(form)
+
+    # def form_valid(self, form):
+    #     self.object = form.save(commit=False)
+    #     self.object.user = self.request.user
+    #     self.object.save()
+    #     return HttpResponseRedirect(self.get_success_url())
+
+    # def post(self, request, *args, **kwargs):
+    #     form = RecordForm(request.POST)
+    #     if form.is_valid():
+    #         book = form.save()
+    #         book.save()
+    #         return HttpResponseRedirect(self.get_success_url())
+    #     return render(request, 'books/book-create.html', {'form': form})
 
     def form_invalid(self, form):
         response = super().form_invalid(form)
@@ -80,7 +93,8 @@ class RecordCreateView(LoginRequiredMixin, CreateView):
 
     def get_form(self, *args, **kwargs):
         try:
-            latest_record = Record.objects.latest('school_year')
+            latest_record = Record.objects.filter(
+                user=self.request.user).order_by('school_year').reverse().first()
             if (latest_record.school_year == datetime.datetime.now().year):
                 self.object = latest_record
         except (Record.DoesNotExist):
@@ -91,7 +105,8 @@ class RecordCreateView(LoginRequiredMixin, CreateView):
     def get_initial(self, *args, **kwargs):
         initial = super(RecordCreateView, self).get_initial(**kwargs)
         try:
-            latest_record = Record.objects.latest('school_year')
+            latest_record = Record.objects.filter(
+                user=self.request.user).order_by('school_year').reverse().first()
             if (latest_record.school_year != datetime.datetime.now().year):
                 initial = model_to_dict(latest_record)
         except (Record.DoesNotExist):
@@ -104,6 +119,12 @@ class RecordUpdateView(UpdateView):
     model = Record
     fields = [field.name for field in model._meta.get_fields()
               if field.name not in ['user', 'approved']]
+
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        form.instance.user = self.request.user
+        instance.save()
+        return super(RecordUpdateView, self).form_valid(form)
 
 
 class RecordDeleteView(DeleteView):

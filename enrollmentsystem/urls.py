@@ -34,7 +34,9 @@ urlpatterns = [
         name='login',
     ),
     path("accounts/register", views.register_request, name="register"),
-    path("accounts/myaccount", views.my_account, name="myaccount"),
+    path("accounts/myaccount/",
+         views.user_profile, name="myaccount"),
+    path("accounts/application", views.my_application, name="application"),
     path('enrollment/', include('records.urls', namespace='records')),
     path(
         'accounts/logout/',

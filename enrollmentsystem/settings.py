@@ -38,9 +38,9 @@ ALLOWED_HOSTS = ["127.0.0.1", "cvsuenrollmentsystem.pythonanywhere.com"]
 INSTALLED_APPS = [
     'django_tables2',
     'pages.apps.PagesConfig',
+    "admin_interface",
     'authority.apps.AuthorityConfig',
     'records.apps.RecordsConfig',
-    "admin_interface",
     "colorfield",
     'django.contrib.admin',
     'django.contrib.auth',

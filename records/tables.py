@@ -1,4 +1,5 @@
 import django_tables2 as tables
+from authority.views import is_all_files_ok
 from records.models import Record
 from django_tables2.utils import A  # alias for Accessor
 from django_tables2 import TemplateColumn
@@ -10,6 +11,9 @@ class RecordsTable(tables.Table):
     # tables.LinkColumn('records:record-update', args=[A('pk')], attrs={
     #     'a': {'class': 'btn'}
     # })
+
+    def render_approved(self, value, record):
+        return "Yes" if is_all_files_ok(record) else "No"
 
     class Meta:
         model = Record

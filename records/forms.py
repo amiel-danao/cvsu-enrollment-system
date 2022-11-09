@@ -45,6 +45,8 @@ class RecordForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(RecordForm, self).__init__(*args, **kwargs)
+        self.fields['forms_approval'].required = False
+
         self.fields['school_elementary'].label = "Elementary"
         self.fields['school_year_elemetary'].label = "Year Graduated"
         self.fields['school_access_elementary'].label = "School type"

@@ -14,8 +14,6 @@ TRANSFEREE_INDEX = 3
 SEMESTER_CHOICES = [
     (1, 1),
     (2, 2),
-    (3, 3),
-    (4, 4)
 ]
 
 STUDENT_CLASSIFICATION_CHOICES = [
@@ -82,7 +80,7 @@ class Course(models.Model):
     )
     course_credit = models.PositiveSmallIntegerField()
 
-    subjects = models.ManyToManyField(Subject)
+    subjects = models.ManyToManyField(Subject, blank=True)
 
     def __str__(self):
         return self.course_name
@@ -99,6 +97,10 @@ class FormsApproval(models.Model):
     notice_of_admission = models.BooleanField(default=False)
     cert_of_transfer = models.BooleanField(default=False)
 
+    @classmethod
+    def get_new(cls):
+        return cls.objects.create().id
+
     def __str__(self):
         return f'Forms Approval {self.id}'
 
@@ -107,7 +109,7 @@ class Record(models.Model):
     user = models.ForeignKey(
         CustomUser, on_delete=models.SET_NULL, blank=True, null=True)
     forms_approval = models.OneToOneField(
-        FormsApproval, on_delete=models.CASCADE)
+        FormsApproval, default=FormsApproval.get_new, on_delete=models.CASCADE)
     first_name = models.CharField(default="", blank=False, max_length=50)
     middle_name = models.CharField(blank=True, max_length=50)
     last_name = models.CharField(default="", blank=False, max_length=50)
@@ -163,7 +165,7 @@ class Record(models.Model):
     parent_landline_no = PhoneNumberField(blank=True)
     parent_cellphone_no = PhoneNumberField(blank=True)
 
-    school_year = models.PositiveIntegerField(default=datetime.datetime.now().year, blank=False, validators=[
+    school_year = models.PositiveIntegerField(unique=True, default=datetime.datetime.now().year, blank=False, validators=[
         MaxValueValidator(3000), MinValueValidator(2000)])
     semester = models.PositiveIntegerField(
         choices=SEMESTER_CHOICES, blank=False, default=1)
@@ -195,6 +197,9 @@ class Record(models.Model):
 
     cert_of_transfer = models.FileField(
         blank=True, upload_to='documents/')
+
+    class Meta:
+        unique_together = ('semester', 'school_year')
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'

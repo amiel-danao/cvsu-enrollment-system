@@ -1,7 +1,10 @@
 from django.contrib import admin
 
-from .models import Course, Department, FormsApproval, Record, Subject
+from .models import Course, Department, FormsApproval, Record, Section, Subject
 from django.forms import ModelForm
+from admin_interface.models import Theme
+
+admin.site.unregister(Theme)
 
 
 @admin.register(FormsApproval)
@@ -61,4 +64,9 @@ admin.site.register(Subject, SubjectAdmin)
 
 @admin.register(Department)
 class DepartmentAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Section)
+class SectionAdmin(admin.ModelAdmin):
     pass
