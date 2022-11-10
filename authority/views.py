@@ -15,6 +15,7 @@ from django.conf import settings
 from django.views.generic.detail import DetailView
 from django.core import serializers
 from django.forms.models import model_to_dict
+from django.http import Http404
 
 
 def index(request):
@@ -83,10 +84,7 @@ def user_profile(request):
     record = Record.objects.filter(
         user=request.user).order_by('school_year').reverse().first()
 
-    if record is None:
-        raise PermissionError("No enrollment Data to be displayed yet.")
-
-    if record.user.id is not request.user.id:
+    if record is not None and record.user.id is not request.user.id:
         raise PermissionError("Permission Denied!")
 
     # record_form = RecordForm(data=model_to_dict(record))
@@ -95,9 +93,10 @@ def user_profile(request):
     context = {
         'record': record,
         'student_id': get_student_id(record),
-        'registration_status': REGISTRATION_STATUS_CHOICES[record.registration_status][1],
+        'registration_status': None if record is None else REGISTRATION_STATUS_CHOICES[record.registration_status][1],
         'enrollment_status': "Approved" if is_approved else "Pending"
     }
+
     return render(request, 'authority/customuser_detail.html', context)
 
 
@@ -174,6 +173,8 @@ def download_form(request):
 
 
 def get_student_id(record):
+    if record is None:
+        return 'No Student ID'
     id = record.id
     year = datetime.datetime.now().year
     semester = record.semester

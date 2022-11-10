@@ -36,6 +36,7 @@
     {% csrf_token %}
     <div class="container-fluid">
         <div class="row">
+            {% if record is not None %}
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Basic Information</h5>
@@ -51,7 +52,10 @@
                     <p class="card-text">Registration Status : {{ registration_status }}</p>
                     <p class="card-text">Enrollment Status : {{ enrollment_status }}</p>
                 </div>
-              </div>
+            </div>
+            {% else %}
+                <h1>No Enrollment Record Yet.</h1>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
