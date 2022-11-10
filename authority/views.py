@@ -79,11 +79,12 @@ def my_application(request):
 
 
 def user_profile(request):
-    try:
-        record = Record.objects.filter(
-            user=request.user).order_by('school_year').reverse().first()
-    except:
-        raise Record.DoesNotExist("Permission Denied!")
+    
+    record = Record.objects.filter(
+        user=request.user).order_by('school_year').reverse().first()
+
+    if record is None:
+        raise PermissionError("No enrollment Data to be displayed yet.")
 
     if record.user.id is not request.user.id:
         raise PermissionError("Permission Denied!")
