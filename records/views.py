@@ -67,6 +67,8 @@ class RecordCreateView(LoginRequiredMixin, CreateView):
         instance = form.save(commit=False)
         instance.user = self.request.user
         form.instance.user = self.request.user
+        if form.instance.forms_approval is None:
+            form.instance.forms_approval = FormsApproval.objects.create()
         instance.save()
         return super(RecordCreateView, self).form_valid(form)
 

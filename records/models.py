@@ -109,7 +109,7 @@ class Record(models.Model):
     user = models.ForeignKey(
         CustomUser, on_delete=models.SET_NULL, blank=True, null=True)
     forms_approval = models.OneToOneField(
-        FormsApproval, default=FormsApproval.get_new, on_delete=models.CASCADE)
+        FormsApproval, on_delete=models.CASCADE)
     first_name = models.CharField(default="", blank=False, max_length=50)
     middle_name = models.CharField(blank=True, max_length=50)
     last_name = models.CharField(default="", blank=False, max_length=50)
