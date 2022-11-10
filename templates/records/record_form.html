@@ -10,6 +10,10 @@
         .csvu_title {
             font-family: "Times New Roman", Times, serif;
         }
+        hr {
+            height: 12px;
+            background: black;
+        }
     </style>
 {% endblock mycss %}
 
@@ -161,4 +165,26 @@
             </form>
         </div>
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $(function() {
+            let student_classification_value = $('#id_student_classification').val();
+            update_shiftee_visibility(student_classification_value);
+
+            $('#id_student_classification').on('change', function (e) {
+                var valueSelected = this.value;
+
+                update_shiftee_visibility(valueSelected);
+            });
+
+            function update_shiftee_visibility(valueSelected){
+                if (valueSelected === "6"){
+                    $('#div_id_shiftee_from').show();
+                } else {
+                    $('#div_id_shiftee_from').hide();
+                }
+            }
+        });
+    </script>
 {% endblock %}

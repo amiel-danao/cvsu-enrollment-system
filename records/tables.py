@@ -11,9 +11,10 @@ class RecordsTable(tables.Table):
     # tables.LinkColumn('records:record-update', args=[A('pk')], attrs={
     #     'a': {'class': 'btn'}
     # })
+    approved = tables.Column(verbose_name='Status')
 
     def render_approved(self, value, record):
-        return "Yes" if is_all_files_ok(record) else "No"
+        return "Approved" if is_all_files_ok(record) else "Reject"
 
     class Meta:
         model = Record

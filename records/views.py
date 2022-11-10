@@ -120,8 +120,7 @@ class RecordCreateView(LoginRequiredMixin, CreateView):
 
 class RecordUpdateView(UpdateView):
     model = Record
-    fields = [field.name for field in model._meta.get_fields()
-              if field.name not in ['user', 'approved']]
+    form_class = RecordForm
 
     def form_valid(self, form):
         instance = form.save(commit=False)

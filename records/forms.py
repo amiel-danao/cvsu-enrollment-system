@@ -5,7 +5,8 @@ from phonenumber_field.formfields import PhoneNumberField
 from django.contrib.auth.forms import UserCreationForm
 from authority.models import CustomUser
 from flatpickr import DatePickerInput, TimePickerInput, DateTimePickerInput
-from django.forms.widgets import FileInput
+from django.forms import Widget
+from django.utils.safestring import mark_safe
 
 APPLICATION_FORM_FIELDS = (
     'form_137',
@@ -41,18 +42,46 @@ class BootstrapModelForm(ModelForm):
             {'placeholder': 'House No. & Street / Barangay / Town / Province'})
 
 
+class PrependWidget(Widget):
+    """ Widget that prepend boostrap-style span with data to specified base widget """
+
+    def __init__(self, base_widget, data, *args, **kwargs):
+        u"""Initialise widget and get base instance"""
+        super(PrependWidget, self).__init__(*args, **kwargs)
+        self.base_widget = base_widget(*args, **kwargs)
+        self.data = data
+
+    def render(self, name, value, attrs=None, renderer=None):
+        u"""Render base widget and add bootstrap spans"""
+        field = self.base_widget.render(name, value, attrs)
+        date = None
+        if value is not None:
+            date = value.strftime("%Y-%m-%d")
+        return mark_safe((
+            u'<div class="input-group mb-3">'
+            f'<input value="{date}" type="text" class="form-control dateinput flatpickr-input" placeholder="yyyy-mm-dd" aria-label="" aria-describedby="basic-addon2">'
+            u'<span class="input-group-text" id="basic-addon2">yyyy-mm-dd</span>'
+            u'</div>'
+        ) % {'field': field, 'data': self.data})
+
+
 class RecordForm(forms.ModelForm):
+
+    birthday = forms.DateField(required=True,
+                               widget=PrependWidget(base_widget=forms.DateInput, data=None))
 
     def __init__(self, *args, **kwargs):
         super(RecordForm, self).__init__(*args, **kwargs)
         self.fields['forms_approval'].required = False
+        self.fields['birthday'].label = "Birthdate"
+        self.fields['birthday'].widget.attrs['placeholder'] = "yyyy-mm-dd"
 
         self.fields['school_elementary'].label = "Elementary"
         self.fields['school_year_elemetary'].label = "Year Graduated"
         self.fields['school_access_elementary'].label = "School type"
         self.fields['school_address_elementary'].label = "Address"
 
-        self.fields['school_high'].label = "High School"
+        self.fields['school_high'].label = "High School/Senior High School"
         self.fields['school_year_high'].label = "Year Graduated"
         self.fields['school_access_high'].label = "School type"
         self.fields['school_address_high'].label = "Address"
