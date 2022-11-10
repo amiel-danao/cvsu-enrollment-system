@@ -95,7 +95,8 @@ class RecordCreateView(LoginRequiredMixin, CreateView):
         try:
             latest_record = Record.objects.filter(
                 user=self.request.user).order_by('school_year').reverse().first()
-            if (latest_record.school_year == datetime.datetime.now().year):
+
+            if (latest_record is not None and latest_record.school_year == datetime.datetime.now().year):
                 self.object = latest_record
         except (Record.DoesNotExist):
             pass
@@ -107,7 +108,7 @@ class RecordCreateView(LoginRequiredMixin, CreateView):
         try:
             latest_record = Record.objects.filter(
                 user=self.request.user).order_by('school_year').reverse().first()
-            if (latest_record.school_year != datetime.datetime.now().year):
+            if (latest_record is not None and latest_record.school_year != datetime.datetime.now().year):
                 initial = model_to_dict(latest_record)
         except (Record.DoesNotExist):
             pass

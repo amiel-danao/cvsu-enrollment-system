@@ -39,9 +39,10 @@ def register_request(request):
 
 
 def my_application(request):
-    try:
-        latest_record = Record.objects.filter(
-            user=request.user).order_by('school_year').reverse().first()
+    
+    latest_record = Record.objects.filter(
+        user=request.user).order_by('school_year').reverse().first()
+    if latest_record is not None:
         if request.method == 'POST':
             form = ApplicationForm(
                 request.POST, request.FILES, instance=latest_record)
@@ -73,7 +74,7 @@ def my_application(request):
             'record': latest_record.forms_approval,
             'all_files_ok': all_files_ok,
         })
-    except Record.DoesNotExist:
+    else:
         return render(request, 'pages/application.html')
 
 
