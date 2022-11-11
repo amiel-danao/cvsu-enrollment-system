@@ -105,17 +105,17 @@ class RecordCreateView(LoginRequiredMixin, CreateView):
 
         return super().get_form(*args, **kwargs)
 
-    def get_initial(self, *args, **kwargs):
-        initial = super(RecordCreateView, self).get_initial(**kwargs)
-        try:
-            latest_record = Record.objects.filter(
-                user=self.request.user).order_by('school_year').reverse().first()
-            if (latest_record is not None and latest_record.school_year != datetime.datetime.now().year):
-                initial = model_to_dict(latest_record)
-        except (Record.DoesNotExist):
-            pass
+    # def get_initial(self, *args, **kwargs):
+    #     initial = super(RecordCreateView, self).get_initial(**kwargs)
+    #     try:
+    #         latest_record = Record.objects.filter(
+    #             user=self.request.user).order_by('school_year').reverse().first()
+    #         if (latest_record is not None and latest_record.school_year != datetime.datetime.now().year):
+    #             initial = model_to_dict(latest_record)
+    #     except (Record.DoesNotExist):
+    #         pass
 
-        return initial
+    #     return initial
 
 
 class RecordUpdateView(UpdateView):

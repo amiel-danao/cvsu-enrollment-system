@@ -40,7 +40,7 @@ def register_request(request):
 
 
 def my_application(request):
-    
+
     latest_record = Record.objects.filter(
         user=request.user).order_by('school_year').reverse().first()
     if latest_record is not None:
@@ -56,7 +56,7 @@ def my_application(request):
                     f'/admin/records/formsapproval/{latest_record.forms_approval.id}/change/')
                 email_message = f'This is an automated mail to remind you that a user has uploaded a form. You can see the uploaded form using this <a href="{form_approval_url}">link</a>'
                 superusers_emails = CustomUser.objects.filter(
-                    is_superuser=True).values_list('email', flat=True)
+                    is_staff=True).values_list('email', flat=True)
 
                 to_emails = list(superusers_emails)
 
@@ -80,7 +80,7 @@ def my_application(request):
 
 
 def user_profile(request):
-    
+
     record = Record.objects.filter(
         user=request.user).order_by('school_year').reverse().first()
 
@@ -93,7 +93,7 @@ def user_profile(request):
     context = {
         'record': record,
         'student_id': get_student_id(record),
-        'registration_status': None if record is None else REGISTRATION_STATUS_CHOICES[record.registration_status][1],
+        'registration_status': None if record is None else REGISTRATION_STATUS_CHOICES[record.registration_status],
         'enrollment_status': "Approved" if is_approved else "Pending"
     }
 

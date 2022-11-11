@@ -3,8 +3,10 @@ from django.contrib import admin
 from .models import Course, Department, FormsApproval, Record, Section, Subject
 from django.forms import ModelForm
 from admin_interface.models import Theme
+from django.contrib.auth.models import Group
 
 admin.site.unregister(Theme)
+admin.site.unregister(Group)
 
 
 @admin.register(FormsApproval)
