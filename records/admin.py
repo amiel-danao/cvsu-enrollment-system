@@ -9,8 +9,21 @@ admin.site.unregister(Theme)
 admin.site.unregister(Group)
 
 
+class FormsApprovalAdminForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['record'].disabled = True
+        self.fields['record'].widget.can_change_related = False
+
+    class Meta:
+        model = FormsApproval
+        fields = '__all__'
+
+
 @admin.register(FormsApproval)
 class FormsApprovalAdmin(admin.ModelAdmin):
+    form = FormsApprovalAdminForm
+
     def has_add_permission(self, request, obj=None):
         return False
 
@@ -18,19 +31,7 @@ class FormsApprovalAdmin(admin.ModelAdmin):
         return False
 
 
-class RecordAdminForm(ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['forms_approval'].disabled = True
-        self.fields['forms_approval'].widget.can_change_related = False
-
-    class Meta:
-        model = Record
-        fields = '__all__'
-
-
 class RecordAdmin(admin.ModelAdmin):
-    form = RecordAdminForm
     list_display = ('id', 'first_name', 'middle_name',
                     'last_name', 'school_year')
     list_display_links = ('id', )

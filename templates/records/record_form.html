@@ -35,6 +35,24 @@
                         <p class="fs-5 text-center fs-bold lh-1 text-uppercase mb-5">Student Information Sheet</p>
                     </div>
                 </div>
+                
+                {% if form.non_field_errors  %}
+                    <ul>
+                    {% for error in form.non_field_errors  %}
+                        <li class="text-danger">{{ error }}</li>
+                    {% endfor %}
+                    </ul>
+                {% else %}
+                    {% if form.errors  %}
+                        <p>Please correct the following data form fields:</p>
+                        <ul>
+                        {% for error in form.errors  %}
+                            <li class="text-danger">{{ error }}</li>
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endif %}
+
                 <p>Instruction: Input N/A if not applicable<br>*required fields</p>
                 <!-- Security token -->
                 {% csrf_token %}

@@ -7,6 +7,7 @@ from django.urls import reverse
 from phonenumber_field.modelfields import PhoneNumberField
 from authority.models import CustomUser
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db.models import signals
 
 
 TRANSFEREE_INDEX = 3
@@ -86,53 +87,31 @@ class Course(models.Model):
         return self.course_name
 
 
-class FormsApproval(models.Model):
-    form_137 = models.BooleanField(default=False)
-    card_138 = models.BooleanField(default=False)
-    goodmoral = models.BooleanField(default=False)
-    notice_of_admission = models.BooleanField(default=False)
-    medical_clearance = models.BooleanField(default=False)
-    application_form = models.BooleanField(default=False)
-    transcript_of_record = models.BooleanField(default=False)
-    notice_of_admission = models.BooleanField(default=False)
-    cert_of_transfer = models.BooleanField(default=False)
-
-    @classmethod
-    def get_new(cls):
-        return cls.objects.create().id
-
-    def __str__(self):
-        return f'Forms Approval {self.id}'
-
-
 class Record(models.Model):
     user = models.ForeignKey(
         CustomUser, on_delete=models.SET_NULL, blank=True, null=True)
-    forms_approval = models.OneToOneField(
-        FormsApproval, on_delete=models.CASCADE)
     first_name = models.CharField(default="", blank=False, max_length=50)
     middle_name = models.CharField(blank=True, max_length=50)
     last_name = models.CharField(default="", blank=False, max_length=50)
     home_address = models.CharField(default="", blank=False, max_length=150)
-    landline_no = PhoneNumberField(blank=True)
-    cellphone_no = PhoneNumberField(blank=True)
+    landline_no = PhoneNumberField(blank=True, region="PH")
+    cellphone_no = PhoneNumberField(blank=True, region="PH")
     email = models.EmailField(max_length=254, blank=True)
     course = models.ForeignKey(
         Course, on_delete=models.SET_NULL, blank=True, null=True)
     section = models.ForeignKey(
         Section, on_delete=models.SET_NULL, blank=True, null=True
     )
-    student_classification = models.PositiveIntegerField(default=1,
-                                                         max_length=1, choices=STUDENT_CLASSIFICATION_CHOICES)
-    registration_status = models.PositiveIntegerField(default=1,
-                                                      max_length=1, choices=REGISTRATION_STATUS_CHOICES)
+    student_classification = models.PositiveIntegerField(
+        default=1, choices=STUDENT_CLASSIFICATION_CHOICES)
+    registration_status = models.PositiveIntegerField(
+        default=1, choices=REGISTRATION_STATUS_CHOICES)
     shiftee_from = models.CharField(max_length=150, blank=True)
     birthday = models.DateField(default=datetime.datetime.now())
     birthplace = models.CharField(default="", blank=False, max_length=150)
     age = models.PositiveIntegerField(default=18, blank=False, validators=[
                                       MaxValueValidator(100), MinValueValidator(12)])
-    sex = models.PositiveIntegerField(default=1,
-                                      max_length=1, choices=SEX_CHOICES)
+    sex = models.PositiveIntegerField(default=1, choices=SEX_CHOICES)
     religion = models.CharField(default="", blank=True, max_length=50)
     nationality = models.CharField(default="", blank=True, max_length=50)
     civil_status = models.CharField(default="", blank=True, max_length=50)
@@ -141,16 +120,16 @@ class Record(models.Model):
         default="", blank=True, max_length=150)
     school_year_elemetary = models.PositiveIntegerField(default=datetime.datetime.now().year, blank=True, validators=[
         MaxValueValidator(3000), MinValueValidator(1985)])
-    school_access_elementary = models.PositiveIntegerField(default=1,
-                                                           max_length=1, choices=SCHOOL_TYPE_CHOICES)
+    school_access_elementary = models.PositiveIntegerField(
+        default=1, choices=SCHOOL_TYPE_CHOICES)
     school_address_elementary = models.CharField(
         default="", blank=True, max_length=150)
 
     school_high = models.CharField(default="", blank=True, max_length=150)
     school_year_high = models.PositiveIntegerField(default=datetime.datetime.now().year, blank=True, validators=[
         MaxValueValidator(3000), MinValueValidator(1985)])
-    school_access_high = models.PositiveIntegerField(default=1,
-                                                     max_length=1, choices=SCHOOL_TYPE_CHOICES)
+    school_access_high = models.PositiveIntegerField(
+        default=1, choices=SCHOOL_TYPE_CHOICES)
     school_address_high = models.CharField(
         default="", blank=True, max_length=150)
 
@@ -162,10 +141,10 @@ class Record(models.Model):
     parent_guardian = models.CharField(default="", blank=True, max_length=50)
     parent_address = models.CharField(default="", blank=True, max_length=150)
     parent_occupation = models.CharField(default="", blank=True, max_length=50)
-    parent_landline_no = PhoneNumberField(blank=True)
-    parent_cellphone_no = PhoneNumberField(blank=True)
+    parent_landline_no = PhoneNumberField(blank=True, region="PH")
+    parent_cellphone_no = PhoneNumberField(blank=True, region="PH")
 
-    school_year = models.PositiveIntegerField(unique=True, default=datetime.datetime.now().year, blank=False, validators=[
+    school_year = models.PositiveIntegerField(default=datetime.datetime.now().year, blank=False, validators=[
         MaxValueValidator(3000), MinValueValidator(2000)])
     semester = models.PositiveIntegerField(
         choices=SEMESTER_CHOICES, blank=False, default=1)
@@ -199,10 +178,43 @@ class Record(models.Model):
         blank=True, upload_to='documents/')
 
     class Meta:
-        unique_together = ('semester', 'school_year')
+        unique_together = ('user', 'semester', 'school_year')
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
 
     def get_absolute_url(self):
         return reverse('records:record-update', kwargs={'pk': self.pk})
+
+    def save_model(self, request, obj, form, change):
+        if not obj.pk:
+            # Only set added_by during the first save.
+            obj.user = request.user
+        super().save_model(request, obj, form, change)
+
+
+class FormsApproval(models.Model):
+    record = models.ForeignKey(
+        Record, on_delete=models.CASCADE)
+
+    form_137 = models.BooleanField(default=False)
+    card_138 = models.BooleanField(default=False)
+    goodmoral = models.BooleanField(default=False)
+    notice_of_admission = models.BooleanField(default=False)
+    medical_clearance = models.BooleanField(default=False)
+    application_form = models.BooleanField(default=False)
+    transcript_of_record = models.BooleanField(default=False)
+    notice_of_admission = models.BooleanField(default=False)
+    cert_of_transfer = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'Forms Approval {self.id}'
+
+
+def create_forms_approval(sender, instance, created, **kwargs):
+    if created:
+        FormsApproval.objects.create(record=instance)
+
+
+signals.post_save.connect(create_forms_approval, sender=Record, weak=False,
+                          dispatch_uid='models.create_forms_approval')

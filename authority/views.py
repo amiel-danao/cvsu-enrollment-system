@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.contrib.auth import login
 from django.core.files.storage import FileSystemStorage
 from authority.models import CustomUser
-from records.forms import APPLICATION_FORM_FIELDS, APPLICATION_FORM_FIELDS_TRANSFEREE, ApplicationForm, NewUserForm, RecordForm
+from records.forms import APPLICATION_FORM_FIELDS, APPLICATION_FORM_FIELDS_TRANSFEREE, ApplicationForm, NewUserForm, ProfilePicForm, RecordForm
 from records.models import REGISTRATION_STATUS_CHOICES, STUDENT_CLASSIFICATION_CHOICES, TRANSFEREE_INDEX, FormsApproval, Record
 from django.core.exceptions import BadRequest
 from django.http import HttpResponse
@@ -44,6 +44,8 @@ def my_application(request):
     latest_record = Record.objects.filter(
         user=request.user).order_by('school_year').reverse().first()
     if latest_record is not None:
+        latest_form_approval = FormsApproval.objects.get(record=latest_record)
+
         if request.method == 'POST':
             form = ApplicationForm(
                 request.POST, request.FILES, instance=latest_record)
@@ -53,7 +55,7 @@ def my_application(request):
                 uncheck_cleared_files(latest_record, request.FILES)
 
                 form_approval_url = request.build_absolute_uri(
-                    f'/admin/records/formsapproval/{latest_record.forms_approval.id}/change/')
+                    f'/admin/records/formsapproval/{latest_form_approval.id}/change/')
                 email_message = f'This is an automated mail to remind you that a user has uploaded a form. You can see the uploaded form using this <a href="{form_approval_url}">link</a>'
                 superusers_emails = CustomUser.objects.filter(
                     is_staff=True).values_list('email', flat=True)
@@ -72,7 +74,7 @@ def my_application(request):
 
         return render(request, 'pages/application.html', {
             'form': form,
-            'record': latest_record.forms_approval,
+            'record': latest_form_approval,
             'all_files_ok': all_files_ok,
         })
     else:
@@ -90,26 +92,46 @@ def user_profile(request):
     # record_form = RecordForm(data=model_to_dict(record))
     # data = serializers.serialize("python", Record.objects.all())
     is_approved = is_all_files_ok(record)
+    registration_status_value = None
+    if record is not None:
+        registration_status_value = [
+            tup for tup in REGISTRATION_STATUS_CHOICES if record.registration_status in tup][0][1]
+
     context = {
         'record': record,
         'student_id': get_student_id(record),
-        'registration_status': None if record is None else REGISTRATION_STATUS_CHOICES[record.registration_status],
+        'registration_status': registration_status_value,
         'enrollment_status': "Approved" if is_approved else "Pending"
     }
+
+    if request.method == 'POST':
+        form = ProfilePicForm(
+            request.POST, instance=request.user, files=request.FILES)
+
+        if form.is_valid():
+            userprofile = form.save()
+            userprofile.save()
+        else:
+            context['form'] = form
 
     return render(request, 'authority/customuser_detail.html', context)
 
 
 def uncheck_cleared_files(latest_record, files):
-    field_list = APPLICATION_FORM_FIELDS
-    if latest_record.student_classification == TRANSFEREE_INDEX:
-        field_list = APPLICATION_FORM_FIELDS_TRANSFEREE
+    try:
+        latest_form_approval = FormsApproval.objects.get(record=latest_record)
 
-    for field in field_list:
-        if not getattr(latest_record, field):
-            setattr(latest_record.forms_approval, field, False)
+        field_list = APPLICATION_FORM_FIELDS
+        if latest_record.student_classification == TRANSFEREE_INDEX:
+            field_list = APPLICATION_FORM_FIELDS_TRANSFEREE
 
-    latest_record.forms_approval.save()
+        for field in field_list:
+            if not getattr(latest_record, field):
+                setattr(latest_form_approval, field, False)
+
+        latest_form_approval.save()
+    except Exception:
+        pass
 
 
 def is_all_files_ok(latest_record):
@@ -119,10 +141,14 @@ def is_all_files_ok(latest_record):
     if latest_record.student_classification == TRANSFEREE_INDEX:
         field_list = APPLICATION_FORM_FIELDS_TRANSFEREE
 
-    for field in field_list:
-        file = getattr(latest_record.forms_approval, field)
-        if file is False:
-            return False
+    try:
+        latest_form_approval = FormsApproval.objects.get(record=latest_record)
+        for field in field_list:
+            file = getattr(latest_form_approval, field)
+            if file is False:
+                return False
+    except Exception:
+        pass
     return True
 
 

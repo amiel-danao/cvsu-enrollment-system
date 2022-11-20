@@ -7,6 +7,9 @@ from authority.models import CustomUser
 from flatpickr import DatePickerInput, TimePickerInput, DateTimePickerInput
 from django.forms import Widget
 from django.utils.safestring import mark_safe
+from django.core.exceptions import NON_FIELD_ERRORS, ValidationError
+from django.core.files.uploadedfile import InMemoryUploadedFile, TemporaryUploadedFile
+
 
 APPLICATION_FORM_FIELDS = (
     'form_137',
@@ -54,25 +57,23 @@ class PrependWidget(Widget):
     def render(self, name, value, attrs=None, renderer=None):
         u"""Render base widget and add bootstrap spans"""
         field = self.base_widget.render(name, value, attrs)
-        date = None
-        if value is not None:
-            date = value.strftime("%Y-%m-%d")
+        # date = None
+        # if value is not None:
+        #     date = value.strftime("%Y-%m-%d")
         return mark_safe((
             u'<div class="input-group mb-3">'
-            f'<input value="{date}" type="text" class="form-control dateinput flatpickr-input" placeholder="yyyy-mm-dd" aria-label="" aria-describedby="basic-addon2">'
+            f'<input name="{name}" value="{value}" type="text" class="form-control dateinput flatpickr-input" placeholder="yyyy-mm-dd" aria-label="" aria-describedby="basic-addon2">'
             u'<span class="input-group-text" id="basic-addon2">yyyy-mm-dd</span>'
             u'</div>'
         ) % {'field': field, 'data': self.data})
 
 
-class RecordForm(forms.ModelForm):
-
+class RecordForm(ModelForm):
     birthday = forms.DateField(required=True,
-                               widget=PrependWidget(base_widget=forms.DateInput, data=None))
+                               widget=PrependWidget(base_widget=forms.DateInput, data=""))
 
     def __init__(self, *args, **kwargs):
         super(RecordForm, self).__init__(*args, **kwargs)
-        self.fields['forms_approval'].required = False
         self.fields['birthday'].label = "Birthdate"
         self.fields['birthday'].widget.attrs['placeholder'] = "yyyy-mm-dd"
 
@@ -99,21 +100,44 @@ class RecordForm(forms.ModelForm):
 
     class Meta:
         model = Record
-        fields = [field.name for field in model._meta.get_fields()
-                  if field.name not in ['user', 'approved']]
-        # widgets = {
-        #     'birthday': DatePickerInput(),
-        # }
+        fields = [field.name for field in Record._meta.get_fields()
+                  if field.name not in ['approved', 'formsapproval']]
+        error_messages = {
+            NON_FIELD_ERRORS: {
+                'unique_together': "%(model_name)s's %(field_labels)s are not unique.",
+            }
+        }
 
-        # semester = forms.ChoiceField(
-        #     choices=SEMESTER_CHOICES)
-        # landline_no = PhoneNumberField()
+    # def clean(self):
+    #     cleaned_data = self.cleaned_data
+    #     if Record.objects.filter(field1=cleaned_data['user'],
+    #                              field2=cleaned_data['semester'], field2=cleaned_data['school_year']).exists():
+    #         raise ValidationError(
+    #             'Semester and school year already exists for this problem')
 
-        # birthday = forms.DateField(
-        #     widget=forms.TextInput(
-        #         attrs={'type': 'date'}
-        #     )
-        # )
+    #     return cleaned_data
+
+
+class ProfilePicForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['picture']
+        picture = forms.CharField(label='Image', max_length=100)
+
+    def clean_picture(self):
+        image = self.cleaned_data.get("picture")
+        if not image:
+            raise forms.ValidationError("No image!")
+        else:
+            if isinstance(image, InMemoryUploadedFile) or isinstance(image, TemporaryUploadedFile):
+                if image.image.height > 512 or image.image.width > 512:
+                    raise ValidationError(
+                        "Height or Width is larger than what is allowed")
+            else:
+                if image.height > 512 or image.width > 512:
+                    raise ValidationError(
+                        "Height or Width is larger than what is allowed")
+            return image
 
 
 class NewUserForm(UserCreationForm):

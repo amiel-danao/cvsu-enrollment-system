@@ -93,7 +93,7 @@ if os.environ.get("DJANGO_ENV") == "LOCAL":
             "USER": "root",
             "PASSWORD": "",
             "HOST": "127.0.0.1",
-            "PORT": "3306",
+            "PORT": "3333",
         }
     }
 else:
@@ -201,3 +201,4 @@ EMAIL_HOST_PASSWORD = 'fuuiyivhsndlgygt'
 #     EMAIL_FILE_PATH = '/tmp/django-emails'
 
 # DEFAULT_FROM_EMAIL = '<email in the domain of the app>'
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'

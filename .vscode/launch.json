@@ -13,7 +13,8 @@
                 "runserver"
             ],
             "django": true,
-            "justMyCode": false
+            "justMyCode": false,
+            // "console": "internalConsole"
         }
     ]
 }

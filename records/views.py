@@ -14,6 +14,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.http import JsonResponse
 from django.http import HttpResponseRedirect
+from django.contrib import messages
 
 
 def enrollment(request):
@@ -64,12 +65,14 @@ class RecordCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('records:enrollment')
 
     def form_valid(self, form):
-        instance = form.save(commit=False)
-        instance.user = self.request.user
         form.instance.user = self.request.user
-        if form.instance.forms_approval is None:
-            form.instance.forms_approval = FormsApproval.objects.create()
-        instance.save()
+        try:
+            form.save()
+        except Exception as exception:
+            if (exception.args[0] == 1062):
+                form.add_error(
+                    None, "You already enrolled with the same semester and school year! Select a different semester or school year")
+            return self.form_invalid(form)
         return super(RecordCreateView, self).form_valid(form)
 
     # def form_valid(self, form):
@@ -84,26 +87,27 @@ class RecordCreateView(LoginRequiredMixin, CreateView):
     #         book = form.save()
     #         book.save()
     #         return HttpResponseRedirect(self.get_success_url())
-    #     return render(request, 'books/book-create.html', {'form': form})
+    #     return render(request, 'records/record_form.html', {'form': form})
 
     def form_invalid(self, form):
         response = super().form_invalid(form)
+        messages.error(self.request, form.errors)
         if self.request.accepts('text/html'):
             return response
         else:
             return JsonResponse(form.errors, status=400)
 
-    def get_form(self, *args, **kwargs):
-        try:
-            latest_record = Record.objects.filter(
-                user=self.request.user).order_by('school_year').reverse().first()
+    # def get_form(self, *args, **kwargs):
+    #     try:
+    #         latest_record = Record.objects.filter(
+    #             user=self.request.user).order_by('school_year').reverse().first()
 
-            if (latest_record is not None and latest_record.school_year == datetime.datetime.now().year):
-                self.object = latest_record
-        except (Record.DoesNotExist):
-            pass
+    #         if (latest_record is not None and latest_record.school_year == datetime.datetime.now().year):
+    #             self.object = latest_record
+    #     except (Record.DoesNotExist):
+    #         pass
 
-        return super().get_form(*args, **kwargs)
+    #     return super().get_form(*args, **kwargs)
 
     # def get_initial(self, *args, **kwargs):
     #     initial = super(RecordCreateView, self).get_initial(**kwargs)
@@ -123,10 +127,23 @@ class RecordUpdateView(UpdateView):
     form_class = RecordForm
 
     def form_valid(self, form):
-        instance = form.save(commit=False)
         form.instance.user = self.request.user
-        instance.save()
-        return super(RecordUpdateView, self).form_valid(form)
+        try:
+            form.save()
+        except Exception as exception:
+            if (exception.args[0] == 1062):
+                form.add_error(
+                    None, "You already enrolled with the same semester and school year! Select a different semester or school year")
+            return self.form_invalid(form)
+        return super(UpdateView, self).form_valid(form)
+
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        messages.error(self.request, form.errors)
+        if self.request.accepts('text/html'):
+            return response
+        else:
+            return JsonResponse(form.errors, status=400)
 
 
 class RecordDeleteView(DeleteView):

@@ -3,7 +3,10 @@
 {% load crispy_forms_tags %}
 
 {% block mycss %} 
-    <style>    
+    <style>
+        .profile-pic{
+            max-width:128px;
+        }
         .incomplete{
             color:red;
         }
@@ -15,7 +18,7 @@
         }
         /* Style buttons */
         .btn {
-            background-color: green;
+            background-color: rgb(0, 221, 236);
             border: none;
             color: white;
             padding: 12px 30px;
@@ -25,7 +28,42 @@
 
         /* Darker background on mouse-over */
         .btn:hover {
-            background-color: lime;
+            background-color: rgb(0, 255, 242);
+        }
+
+        #upload {
+            opacity: 0;
+        }
+
+        #upload-label {
+            position: absolute;
+            top: 50%;
+            left: 1rem;
+            transform: translateY(-50%);
+        }
+
+        .image-area {
+            border: 2px dashed rgba(255, 255, 255, 0.7);
+            padding: 1rem;
+            position: relative;
+        }
+
+        .image-area::before {
+            content: 'Uploaded image result';
+            color: #fff;
+            font-weight: bold;
+            text-transform: uppercase;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.8rem;
+            z-index: 1;
+        }
+
+        .image-area img {
+            z-index: 2;
+            position: relative;
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -37,21 +75,60 @@
     <div class="container-fluid">
         <div class="row">
             {% if record is not None %}
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Basic Information</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Student Id : {{ student_id }}</h6>
-                    <p class="card-text">First Name : {{ record.first_name }}</p>
-                    <p class="card-text">Middle Name : {{ record.middle_name }}</p>
-                    <p class="card-text">Last Name : {{ record.last_name }}</p>
-                    <p class="card-text">Contact No. : {{ record.cellphone_no }}</p>
-                    <p class="card-text">Email :<a href="#" class="card-link">{{ record.email }}</a></p>
-                    <p class="card-text">Home Address : {{ record.home_address }}</p>                    
-                    <hr>
-                    <h5 class="card-title">Enrollment Information</h5>
-                    <p class="card-text">Registration Status : {{ registration_status }}</p>
-                    <p class="card-text">Enrollment Status : {{ enrollment_status }}</p>
+            <div class="col-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Basic Information</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Student Id : {{ student_id }}</h6>
+                        <p class="card-text">First Name : {{ record.first_name }}</p>
+                        <p class="card-text">Middle Name : {{ record.middle_name }}</p>
+                        <p class="card-text">Last Name : {{ record.last_name }}</p>
+                        <p class="card-text">Contact No. : {{ record.cellphone_no }}</p>
+                        <p class="card-text">Email :<a href="#" class="card-link">{{ record.email }}</a></p>
+                        <p class="card-text">Home Address : {{ record.home_address }}</p>                    
+                        <hr>
+                        <h5 class="card-title">Enrollment Information</h5>
+                        <p class="card-text">Registration Status : {{ registration_status }}</p>
+                        <p class="card-text">Enrollment Status : {{ enrollment_status }}</p>
+                    </div>
                 </div>
+            </div>
+            <div class="col-4">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div>
+                        <img src="{% if request.user.picture %}{{ request.user.picture.url }}{% endif %}" alt="No profile picture" class="profile-pic img-thumbnail mx-auto d-block">
+                    </div>
+                    <div class="input-group mb-3 px-2 py-2 rounded-pill bg-white shadow-sm">
+                        <input name="picture" id="upload" type="file" class="form-control border-0" accept="image/*">
+                        <label id="upload-label" for="upload" class="font-weight-light text-muted">Choose file</label>
+                        <div class="input-group-append">
+                            <label for="upload" class="btn btn-light m-0 rounded-pill px-4"> 
+                                <i class="fa fa-cloud-upload mr-2 text-muted"></i>
+                                <!-- <small class="text-uppercase font-weight-bold text-muted"> Choose file</small> -->
+                            </label>
+                        </div>
+                    </div>
+                    <input class="btn btn-primary" type="submit" value="Submit"/>
+                </form>
+                {% if form.non_field_errors  %}
+                <ul>
+                {% for error in form.non_field_errors  %}
+                    <li class="text-danger">{{ error }}</li>
+                {% endfor %}
+                </ul>
+                {% else %}
+                    {% if form.errors %}
+                        <p>Please correct the following data form fields:</p>
+                        <ul>
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <li class="text-danger">{{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endif %}
             </div>
             {% else %}
                 <h1>No Enrollment Record Yet.</h1>
