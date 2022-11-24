@@ -34,15 +34,3 @@ div.breadcrumbs a{
     color: white;
 }
 
-#header{
-    position:absolute;
-    width: auto !important;
-    height: auto !important;
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    padding: 10px 40px !important;
-    background: #10284e !important;
-    color: var(--header-color) !important;
-    overflow: hidden !important;
-}
