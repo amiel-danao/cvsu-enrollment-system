@@ -4,20 +4,7 @@
 <head>
 <title>{% block title %}{% endblock %}</title>
 <link rel="stylesheet" href="{% static "admin/css/base.css" %}">
-<style>
-  #header{
-    position:absolute;
-    width: auto ;
-    height: auto ;
-    display: flex ;
-    justify-content: space-between ;
-    align-items: center ;
-    padding: 10px 40px ;
-    background: #10284e ;
-    color: var(--header-color) ;
-    overflow: hidden ;
-}
-</style>
+
 {% block dark-mode-vars %}
   <link rel="stylesheet" href="{% static "admin/css/dark_mode.css" %}">
 {% endblock %}
