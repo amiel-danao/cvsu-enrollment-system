@@ -17,6 +17,13 @@ SEMESTER_CHOICES = [
     (2, 2),
 ]
 
+YEAR_LEVEL_CHOICES = [
+    (1, "1st"),
+    (2, "2nd"),
+    (3, "3rd"),
+    (4, "4th"),
+]
+
 STUDENT_CLASSIFICATION_CHOICES = [
     (1, "New"),
     (2, "Continuing"),
@@ -144,6 +151,8 @@ class Record(models.Model):
     parent_landline_no = PhoneNumberField(blank=True, region="PH")
     parent_cellphone_no = PhoneNumberField(blank=True, region="PH")
 
+    year_level = models.PositiveIntegerField(
+        choices=YEAR_LEVEL_CHOICES, blank=False, default=1)
     school_year = models.PositiveIntegerField(default=datetime.datetime.now().year, blank=False, validators=[
         MaxValueValidator(3000), MinValueValidator(2000)])
     semester = models.PositiveIntegerField(
