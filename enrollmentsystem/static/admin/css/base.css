@@ -864,36 +864,10 @@ a.deletelink:focus, a.deletelink:hover {
     width: auto;
 }
 
-/* HEADER */
-
-#header {
-    width: 100%;
-    position: fixed;
-    z-index: 100;
-    height: min-content;
-
-    /* width: auto;
-    height: auto; */
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    padding-left: 40px;
-    padding-right: 40px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    overflow: hidden;
-    background: #10284e;
-    color: white;
-}
 
 
-#header a:link, #header a:visited, #logout-form button {
-    color: var(--header-link-color);
-}
 
-#header a:focus , #header a:hover {
-    text-decoration: underline;
-}
+
 
 #branding {
     float: left;
