@@ -1096,3 +1096,15 @@ a.deletelink:focus, a.deletelink:hover {
     color: white;
     background: var(--link-hover-color);
 }
+
+#header2{
+    width: auto;
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 40px;
+    background: #10284e;
+    color: var(--header-color);
+    overflow: hidden;
+}
