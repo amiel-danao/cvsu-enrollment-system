@@ -29,13 +29,13 @@
                 {% if user.is_authenticated %}
                 <li>
                     <a href="#submenu1" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-                        <i class="bi bi-book-half"></i> <span class="ms-1 d-none d-sm-inline">enrollment</span> </a>
+                        <i class="bi bi-book-half"></i> <span class="ms-1 d-none d-sm-inline">Enrollment</span> </a>
                     <ul class="collapse show nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
                         <li class="w-100">
-                            <a href="{% url 'records:record-add' %}" class="nav-link px-0"> <span class="d-none d-sm-inline">New enrollment</span></a>
+                            <a href="{% url 'records:record-add' %}" class="nav-link px-0"> <span class="d-none d-sm-inline">New Enrollment</span></a>
                         </li>
                         <li>
-                            <a href="{% url 'records:enrollment' %}" class="nav-link px-0"> <span class="d-none d-sm-inline">My enrollments</span></a>
+                            <a href="{% url 'records:enrollment' %}" class="nav-link px-0"> <span class="d-none d-sm-inline">My Enrollments</span></a>
                         </li>
                     </ul>
                 </li>

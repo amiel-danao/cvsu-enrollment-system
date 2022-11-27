@@ -1,0 +1,39 @@
+.feature-column {
+  font-family: "Poppins", sans-serif;
+  padding: 10px;
+}
+
+.feature-col-item h4 {
+  font-weight: 700;
+  text-transform: none;
+  line-height: 24px;
+}
+
+.feature-col-item h4 a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.feature-col-item p {
+  font-family: "Poppins", sans-serif;
+  font-size: 13px;
+  color: #fff;
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: 300;
+  line-height: 24px;
+  text-align: left;
+}
+
+.feature-col-item {
+  padding: 10px;
+}
+
+h1 {
+  color: black;
+}

@@ -1,6 +1,6 @@
 import datetime
 from enum import unique
-from time import timezone
+from django.utils.timezone import now
 from unittest.util import _MAX_LENGTH
 from django.db import models
 from django.urls import reverse
@@ -114,7 +114,7 @@ class Record(models.Model):
     registration_status = models.PositiveIntegerField(
         default=1, choices=REGISTRATION_STATUS_CHOICES)
     shiftee_from = models.CharField(max_length=150, blank=True)
-    birthday = models.DateField(default=datetime.datetime.now())
+    birthday = models.DateField(default=now)
     birthplace = models.CharField(default="", blank=False, max_length=150)
     age = models.PositiveIntegerField(default=18, blank=False, validators=[
                                       MaxValueValidator(100), MinValueValidator(12)])
@@ -187,7 +187,7 @@ class Record(models.Model):
         blank=True, upload_to='documents/')
 
     class Meta:
-        unique_together = ('user', 'semester', 'school_year')
+        unique_together = ('user', 'semester', 'year_level', 'school_year')
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'

@@ -1,12 +1,12 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends 'base.html' %} {% load static %} {% block mycss %}
+<link rel="stylesheet" href="{% static 'css/common.css' %}" />
+{% endblock mycss %} {% block content %}
 
 <div class="container">
-    <h1>Your enrollments</h1>
-    <a class="btn btn-success" href="{% url 'records:record-add' %}">New enrollment</a>
+  <h1>Your Enrollments</h1>
+  <a class="btn btn-success" href="{% url 'records:record-add' %}"
+    >New Enrollment</a
+  >
 </div>
 
-{% load django_tables2 %}
-{% render_table table %}
-
-{% endblock %}
+{% load django_tables2 %} {% render_table table %} {% endblock %}
