@@ -35,8 +35,7 @@ STUDENT_CLASSIFICATION_CHOICES = [
 
 REGISTRATION_STATUS_CHOICES = [
     (1, "Regular"),
-    (2, "Irregular"),
-    (3, "Temporary")
+    (2, "Irregular")
 ]
 
 SEX_CHOICES = [
