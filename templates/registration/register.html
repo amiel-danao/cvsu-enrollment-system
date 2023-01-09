@@ -1,5 +1,10 @@
 {% extends 'base.html' %} {% load static %} {% block mycss %} {{ block.super }}
 <link rel="stylesheet" href="{% static 'css/common.css' %}" />
+<style>
+  #form-errors {
+    color: red !important;
+  }
+</style>
 {% endblock mycss %} {% load crispy_forms_tags %} {% block content %}
 <section id="register" class="bg-light py-5">
   <div class="container">
@@ -11,6 +16,7 @@
           </div>
           <div class="card-body">
             <form method="POST">
+              <div id="form-errors">{{ form_errors }}</div>
               {% csrf_token %} {{ register_form|crispy }}
               <div class="col text-center">
                 <button class="btn btn-primary" type="submit">Register</button>

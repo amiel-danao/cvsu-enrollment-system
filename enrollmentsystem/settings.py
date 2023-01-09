@@ -53,7 +53,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -94,7 +93,7 @@ if os.environ.get("DJANGO_ENV") == "LOCAL":
             "USER": "root",
             "PASSWORD": "",
             "HOST": "127.0.0.1",
-            "PORT": "3333",
+            "PORT": "3306",
         }
     }
 else:
