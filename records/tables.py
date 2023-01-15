@@ -14,7 +14,7 @@ class RecordsTable(tables.Table):
     approved = tables.Column(verbose_name='Status')
 
     def render_approved(self, value, record):
-        return "Approved" if is_all_files_ok(record) else "Reject"
+        return "Approved" if is_all_files_ok(record) else "Pending"
 
     class Meta:
         model = Record
