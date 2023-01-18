@@ -37,6 +37,7 @@ class RecordAdmin(admin.ModelAdmin):
     list_display_links = ('id', )
     search_fields = ('first_name', 'middle_name', 'last_name', 'school_year')
     list_per_page = 30
+    exclude = ('registration_date', )
     readonly_fields = ('user', )
 
 

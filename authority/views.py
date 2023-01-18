@@ -1,4 +1,6 @@
 import datetime
+from io import BytesIO
+import os
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.contrib import messages
@@ -6,9 +8,9 @@ from django.contrib.auth import login
 from django.core.files.storage import FileSystemStorage
 from authority.models import CustomUser
 from records.forms import APPLICATION_FORM_FIELDS, APPLICATION_FORM_FIELDS_TRANSFEREE, ApplicationForm, NewUserForm, ProfilePicForm, RecordForm
-from records.models import REGISTRATION_STATUS_CHOICES, STUDENT_CLASSIFICATION_CHOICES, TRANSFEREE_INDEX, FormsApproval, Record
+from records.models import REGISTRATION_STATUS_CHOICES, STUDENT_CLASSIFICATION_CHOICES, TRANSFEREE_INDEX, FormsApproval, Record, YearLevel
 from django.core.exceptions import BadRequest
-from django.http import HttpResponse
+from django.http import FileResponse, HttpResponse
 from docx import Document
 from django.core.mail import send_mail
 from django.conf import settings
@@ -16,6 +18,8 @@ from django.views.generic.detail import DetailView
 from django.core import serializers
 from django.forms.models import model_to_dict
 from django.http import Http404
+from docxtpl import DocxTemplate
+from django.utils import timezone, dateformat
 
 
 def index(request):
@@ -163,42 +167,34 @@ def download_form(request):
         user=request.user).order_by('school_year').reverse().first()
 
     if latest_record is None:
-        raise Record.DoesNotExist
-    document = Document()
+        return Http404()
+
     student_id = get_student_id(latest_record)
-    document.add_heading('Registration Form Sample', 0)
+    middle_name = '' if not latest_record.middle_name else f'{latest_record.middle_name[0]}.'
+    full_name = f'{latest_record.last_name}, {latest_record.first_name} {middle_name}'
+    id = latest_record.id
+    validator = 'A.BAWAR'
+    date = dateformat.format(latest_record.registration_date, 'm/d/Y')
+    gender = "Male" if latest_record.sex == 1 else "Female"
+    address = latest_record.home_address    
+    course = latest_record.course
+    school_year = latest_record.school_year
+    year_level = YearLevel(latest_record.year_level).name
+    semester = f"First {school_year}" if latest_record.semester else f"MidYear {school_year}"
+    section = latest_record.section
+    major = ''
 
-    p = document.add_paragraph(student_id)
-    # p.add_run('bold').bold = True
-    # p.add_run(' and some ')
-    # p.add_run('italic.').italic = True
-
-    # document.add_heading('Heading, level 1', level=1)
-    # document.add_paragraph('Intense quote', style='IntenseQuote')
-
-    # document.add_paragraph(
-    #     'first item in unordered list', style='ListBullet'
-    # )
-    # document.add_paragraph(
-    #     'first item in ordered list', style='ListNumber'
-    # )
-
-    #document.add_picture('monty-truth.png', width=Inches(1.25))
-
-    # table = document.add_table(rows=1, cols=3)
-    # hdr_cells = table.rows[0].cells
-    # hdr_cells[0].text = 'Qty'
-    # hdr_cells[1].text = 'Id'
-    # hdr_cells[2].text = 'Desc'
-
-    # document.add_page_break()
-
-    response = HttpResponse(
-        content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-    response['Content-Disposition'] = 'attachment; filename=registration-form.docx'
-    document.save(response)
-
-    return response
+    context = {
+        'student_id' : student_id, 'full_name': full_name.upper(), 'id': id, 'validator': validator,
+        'date': date, 'gender': gender, 'address': address, 'semester': semester, 'registration_date': date,
+        'course': course, 'year': year_level, 'section': section, 'major': major
+    }
+    byte_io = BytesIO()
+    tpl = DocxTemplate(os.path.join(settings.BASE_DIR, 'form_template.docx'))
+    tpl.render(context)
+    tpl.save(byte_io)
+    byte_io.seek(0)
+    return FileResponse(byte_io, as_attachment=True, filename=f'registration-form-{student_id}.docx')
 
 
 def get_student_id(record):

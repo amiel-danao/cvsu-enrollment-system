@@ -8,6 +8,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 from authority.models import CustomUser
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db.models import signals
+from django.utils.translation import gettext_lazy as _
 
 
 TRANSFEREE_INDEX = 3
@@ -47,6 +48,12 @@ SCHOOL_TYPE_CHOICES = [
     (1, "Private"),
     (2, "Public")
 ]
+
+class YearLevel(models.IntegerChoices):
+    FIRST = 1, _('First')
+    SECOND = 2, _('Second')
+    THIRD = 3, _('Third')
+    FOURTH = 4, _('Fourth')
 
 
 class Section(models.Model):
@@ -184,6 +191,8 @@ class Record(models.Model):
 
     cert_of_transfer = models.FileField(
         blank=True, upload_to='documents/')
+
+    registration_date = models.DateField(auto_now_add=True)
 
     class Meta:
         unique_together = ('user', 'semester', 'year_level', 'school_year')
